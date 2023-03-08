@@ -1,0 +1,111 @@
+file;emd_variable;emd_values;emd_description;diag_mob_variable;diag_mob_format;diag_mob_values;diag_mob_description
+persons;TIRA;;;tira;string;;
+persons;PP2;;;zf;string;;
+;;;;ra_id;string;;
+persons;ECH;;;ech;int;;
+persons;PER;;;per;int;;
+persons;P2;1;masculin;sexe;int;1;homme
+persons;P2;2;féminin;sexe;int;2;femme
+persons;JOURDEP;1;Lundi;day;int;1;Monday
+persons;JOURDEP;2;Mardi;day;int;2;Tuesday
+persons;JOURDEP;3;Mercredi;day;int;3;Wednesday
+persons;JOURDEP;4;Jeudi;day;int;4;Thursday
+persons;JOURDEP;5;Vendredi;day;int;5;Friday
+persons;JOURDEP;6;Samedi;day;int;5;Saturday
+persons;P4;;;age;int;;
+persons;P11A;1;AGRICULTEURS ;csp;int;1;agriculteurs
+persons;P11A;2;ARTISANS, COMMERCANTS, CHEFS D'ENTREPRISE;csp;int;2;artisans, commerçants, chefs d'entreprise
+persons;P11A;3;CADRE ET PROFESSION INTELLECTUELLE SUPERIEURE;csp;int;3;cadre et profession intellectuelle supérieure
+persons;P11A;4;PROFESSION INTERMEDIAIRE;csp;int;4;profession intermédiaire
+persons;P11A;5;EMPLOYE;csp;int;5;employé
+persons;P11A;6;OUVRIER;csp;int;6;ouvrier
+persons;P11A;7;ELEVE, ETUDIANT;csp;int;8;autre
+persons;P11A;8;CHOMEUR N'AYANT JAMAIS TRAVAILLE;csp;int;8;autre
+persons;P11A;9;AUTRE INACTIF N'AYANT JAMAIS TRAVAILLE;csp;int;8;autre
+persons;P9;1;TRAVAIL A PLEIN TEMPS;status;string;employed;
+persons;P9;2;TRAVAIL A TEMPS PARTIEL;status;string;employed;
+persons;P9;3;APPRENTISSAGE, FORMATION, STAGE;status;string;employed;
+persons;P9;4;ETUDIANT;status;string;scholars;
+persons;P9;5;SCOLAIRE, JUSQU'AU BAC;status;string;scholars;
+persons;P9;6;CHOMEUR, CHERCHEUR D'EMPLOI;status;string;unemployed;
+persons;P9;7;RETRAITE;status;string;retired;
+persons;P9;8;RESTE AU FOYER;status;string;other;
+persons;P9;9;AUTRE;status;string;other;
+persons;COEP;;;w_ind;float;;
+persons;COE1;;;w_ind_coe1;float;other;
+;;;;;;;
+households;TIRA;;;tira;string;;
+households;MP3;;;zf;string;;
+;;;;ra_id;string;;
+households;ECH;;;ech;int;;
+households;M6;;;nb_car;int;;
+households;COE0;;;w_hh;float;;
+;;;;;;;
+travels;TIRA;;;tira;string;;
+travels;DP2;;;zf;string;;
+;;;;ra_id;string;;
+travels;ECH;;;ech;int;;
+travels;PER;;;per;int;;
+travels;NDEP;;;trav_nb;int;;
+travels;D4A;;;hour_ori_h;string;;format hhmm
+travels;D8A;;;hour_des_h;string;;format hhmm
+travels;D4B;;;hour_ori_m;string;;format hhmm
+travels;D8B;;;hour_des_m;string;;format hhmm
+travels;D9;;;duration;int;;(minutes)
+travels;D2;;;reason_ori;string;;cf dict
+travels;D5;;;reason_des;string;;cf dict
+travels;MODP;;;modp;string;;cf dict
+travels;MOIP;;;moip;string;;cf dict
+travels;D3;;;zone_ori;string;;
+travels;D7;;;zone_des;string;;
+travels;DIST;;;distance;int;;(meters)
+;;;;;;;
+travels_parts;TIRA;;;tira;string;;
+travels_parts;TP2;;;zf;string;;
+;;;;ra_id;string;;
+travels_parts;ECH;;;ech;int;;
+travels_parts;PER;;;per;int;;
+travels_parts;NDEP;;;trav_nb;int;;
+travels_parts;T1;;;part_id;int;;
+travels_parts;T3;;;part_mode;string;;
+travels_parts;T8;;;part_nb_passengers;float;;
+travels_parts;TDIS;;;part_distance;int;;(meters)
+;;;;;;;
+;;;;;;;
+persons_id_ind;TIRA;;;tira;string;;
+persons_id_ind;PP2;;;ra_id;string;;
+persons_id_ind;ECH;;;ech;int;;
+persons_id_ind;PER;;;per;int;;
+;;;;;;;
+persons_id_hh;TIRA;;;tira;string;;
+persons_id_hh;PP2;;;ra_id;string;;
+persons_id_hh;ECH;;;ech;int;;
+;;;;;;;
+;;;;;;;
+households_id_hh;TIRA;;;tira;string;;
+households_id_hh;MP3;;;ra_id;string;;
+households_id_hh;ECH;;;ech;int;;
+;;;;;;;
+travels_id_trav;TIRA;;;tira;string;;
+travels_id_trav;DP2;;;ra_id;string;;
+travels_id_trav;ECH;;;ech;int;;
+travels_id_trav;PER;;;per;int;;
+travels_id_trav;NDEP;;;ndep;int;;
+;;;;;;;
+travels_id_ind;TIRA;;;tira;string;;
+travels_id_ind;DP2;;;ra_id;string;;
+travels_id_ind;ECH;;;ech;int;;
+travels_id_ind;PER;;;per;int;;
+;;;;;;;
+travels_parts_id_trav;TIRA;;;tira;string;;
+travels_parts_id_trav;TP2;;;ra_id;string;;
+travels_parts_id_trav;ECH;;;ech;int;;
+travels_parts_id_trav;PER;;;per;int;;
+travels_parts_id_trav;NDEP;;;ndep;int;;
+;;;;;;;
+travels_parts_id_trav_part;TIRA;;;tira;string;;
+travels_parts_id_trav_part;TP2;;;ra_id;string;;
+travels_parts_id_trav_part;ECH;;;ech;int;;
+travels_parts_id_trav_part;PER;;;per;int;;
+travels_parts_id_trav_part;NDEP;;;ndep;int;;
+travels_parts_id_trav_part;T1;;;ntrav;int;;
