@@ -220,9 +220,9 @@ def get_public_transport_from_detailed_trips(detailed_trips):
              "route_short_name": route_short_name,
              "route_long_name": route_long_name,
              "route_type": route_type,
-             "stop_name": main_trip["stop_name"],
-             "stop_lat": main_trip["stop_lat"],
-             "stop_lon": main_trip["stop_lon"]}
+             "stops_name": main_trip["stop_name"],
+             "stops_lat": main_trip["stop_lat"],
+             "stops_lon": main_trip["stop_lon"]}
         )
 
         if __name__ == '__main__':
@@ -315,9 +315,9 @@ def get_public_transport2(pool, geo_codes):  # WORK IN PROGRESS
          "route_short_name": df["route_short_name"].iloc[0],
          "route_long_name": df["route_long_name"].iloc[0],
          "route_type": df["route_type"].iloc[0],
-         "stop_name": df["stop_name"],
-         "stop_lat": df["stop_lat"],
-         "stop_lon": df["stop_lon"]}
+         "stops_name": df["stop_name"],
+         "stops_lat": df["stop_lat"],
+         "stops_lon": df["stop_lon"]}
     ))
 
     if __name__ == '__main__' and False:
