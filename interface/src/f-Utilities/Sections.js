@@ -9,7 +9,7 @@ class Sections extends React.Component{
 
   render(){
     return(
-      <div className="row mt-5 mb-5">
+      <div className="row mt-5 mb-3">
         <div className="col">
                 <div className="row">
                   {this.props.dev_mode && <div className="col-auto">

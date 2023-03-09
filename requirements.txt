@@ -4,6 +4,7 @@ scikit-learn==0.23.2
 scipy==1.5.4
 Shapely==1.7.1
 plotly~=4.14.3
+markupsafe==2.0.1
 Flask~=1.1.2
 flask-cors~=3.0.10
 polyline~=1.4.0

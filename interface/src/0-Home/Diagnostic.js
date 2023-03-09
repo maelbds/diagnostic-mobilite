@@ -39,9 +39,6 @@ class Diagnostic extends React.Component {
 
               <KeyFigures territory={this.props.territory}/>
 
-              <div className="row mt-5">
-              </div>
-
               <Sections setSection={this.setSection} selectedSection={this.state.section} dev_mode={this.props.dev_mode}/>
 
 

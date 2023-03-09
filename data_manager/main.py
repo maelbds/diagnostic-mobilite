@@ -7,7 +7,7 @@ from data_manager.educationdatagouv.schools import get_schools
 from data_manager.esrdatagouv.source import source_universities_label, source_universities_link
 from data_manager.exception import UnknownGeocodeError
 
-from data_manager.transportdatagouv.pt import get_public_transport as get_datagouv_pt
+from data_manager.transportdatagouv.pt import get_public_transport2 as get_datagouv_pt
 
 from data_manager.insee_bpe.bpe_places import get_bpe_places, get_bpe_places_no_schools
 from data_manager.esrdatagouv.universities import get_universities

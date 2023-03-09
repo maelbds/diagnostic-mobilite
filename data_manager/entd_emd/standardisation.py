@@ -8,7 +8,7 @@ from data_manager.insee_general.districts import list_district_to_city
 
 
 def standard_indicators(travels):
-    travels["ghg_emissions"] = travels["distance"] * travels["ghg_emissions_factor"] / 1000 #tC02eq
+    travels["ghg_emissions"] = travels["distance"] * travels["ghg_emissions_factor"] / 1000  # tC02eq
     travels["cost"] = travels["distance"] * travels["cost_factor"]
     travels["number"] = 1
     return travels
@@ -32,7 +32,8 @@ def standard_reason(travels):
             return "domicile ↔ loisirs"
         elif (ori == "domicile" and des == "visites") or (des == "domicile" and ori == "visites"):
             return "domicile ↔ visites"
-        elif (ori == "domicile" and des == "affaires personnelles") or (des == "domicile" and ori == "affaires personnelles"):
+        elif (ori == "domicile" and des == "affaires personnelles") or (
+                des == "domicile" and ori == "affaires personnelles"):
             return "domicile ↔ affaires personnelles"
         else:
             return "autre"
@@ -45,13 +46,13 @@ def standard_reason(travels):
 
 def standard_specific_emd(pool, persons, travels, year_cog):
     persons = persons[persons["age"] > 5]
-    persons["day_type"] = 1
-    persons["day"] = persons["day"].replace({1: "lundi",
-                                             2: "mardi",
-                                             3: "mercredi",
-                                             4: "jeudi",
-                                             5: "vendredi",
-                                             })
+    persons.loc[:, "day_type"] = 1
+    persons.loc[:, "day"] = persons.loc[:, "day"].replace({1: "lundi",
+                                                           2: "mardi",
+                                                           3: "mercredi",
+                                                           4: "jeudi",
+                                                           5: "vendredi",
+                                                           })
 
     persons_nb_pers = persons[["id_hh", "sexe"]].groupby("id_hh").count().rename(columns={"sexe": "nb_pers"})
     persons = pd.merge(persons, persons_nb_pers, on="id_hh")
@@ -87,12 +88,14 @@ def standard_specific_emd(pool, persons, travels, year_cog):
 
     travels = pd.merge(travels, cog_changes, left_on="c_geo_code_ori", right_on="geo_code_av", how="left")
     mask_travels_no_cog_changes = travels["geo_code_ap"].isna()
-    travels.loc[~mask_travels_no_cog_changes, "c_geo_code_ori"] = travels.loc[~mask_travels_no_cog_changes, "geo_code_ap"]
+    travels.loc[~mask_travels_no_cog_changes, "c_geo_code_ori"] = travels.loc[
+        ~mask_travels_no_cog_changes, "geo_code_ap"]
     travels.drop(columns=["geo_code_av", "geo_code_ap"], inplace=True)
 
     travels = pd.merge(travels, cog_changes, left_on="c_geo_code_des", right_on="geo_code_av", how="left")
     mask_travels_no_cog_changes = travels["geo_code_ap"].isna()
-    travels.loc[~mask_travels_no_cog_changes, "c_geo_code_des"] = travels.loc[~mask_travels_no_cog_changes, "geo_code_ap"]
+    travels.loc[~mask_travels_no_cog_changes, "c_geo_code_des"] = travels.loc[
+        ~mask_travels_no_cog_changes, "geo_code_ap"]
     travels.drop(columns=["geo_code_av", "geo_code_ap"], inplace=True)
 
     # to identify travels within 80km from home
@@ -108,6 +111,7 @@ def standard_specific_emd(pool, persons, travels, year_cog):
                 return get_coords(pool, geo_code)
             except UnknownGeocodeError:
                 return None
+
     all_coords = all_geo_codes.apply(lambda gc: get_coords_with_none(gc))
     coords_by_geo_code = pd.DataFrame({"geo_code": all_geo_codes, "coords": all_coords}).set_index("geo_code")
 
@@ -124,21 +128,19 @@ def standard_specific_emd(pool, persons, travels, year_cog):
         id_to: coords_by_geo_code.apply(lambda row: calc_estimated_dist(row["coords"], coord_to), axis=1)
         for id_to, coord_to in zip(coords_by_geo_code.index, coords_by_geo_code["coords"])
     })
-    print(distances_matrix)
-    
+
     travels = pd.merge(travels, persons[["id_ind", "geo_code"]], on="id_ind")
-    travels["dist_ori"] = [distances_matrix.loc[ori, des] for ori, des in zip(travels["geo_code"], travels["c_geo_code_ori"])]
-    travels["dist_des"] = [distances_matrix.loc[ori, des] for ori, des in zip(travels["geo_code"], travels["c_geo_code_des"])]
+    travels["dist_ori"] = [distances_matrix.loc[ori, des] for ori, des in
+                           zip(travels["geo_code"], travels["c_geo_code_ori"])]
+    travels["dist_des"] = [distances_matrix.loc[ori, des] for ori, des in
+                           zip(travels["geo_code"], travels["c_geo_code_des"])]
     travels["dist_ori"] = travels["dist_ori"].fillna(100)
     travels["dist_des"] = travels["dist_des"].fillna(100)
 
     travels["mobloc"] = (travels["dist_ori"] < 80) & (travels["dist_des"] < 80)
     travels["mobloc"] = [1 if ml else 0 for ml in travels["mobloc"]]
 
-    print(travels[travels["mobloc"] == 0])
-
     travels = travels[travels["mobloc"] == 1]
-    print(travels)
     return persons, travels
 
 
@@ -149,14 +151,13 @@ def standard_specific_entd(pool, travels):
 
     # out of scolar holidays
     travels = travels.loc[travels["vac_scol"] == 0]
-    travels["w_trav"] = travels["w_trav"] * 52/36
+    travels.loc[:, "w_trav"] = travels.loc[:, "w_trav"] * 52 / 36
 
     # week day only
     travels = travels.loc[travels["day_type"] == 1]
-    travels["w_trav"] = travels["w_trav"] / 5
+    travels.loc[:, "w_trav"] = travels.loc[:, "w_trav"] / 5
     return travels
 
 
 def adapt_work_distance(dist):
-    return min(dist, 400)**(1/4)
-
+    return min(dist, 400) ** (1 / 4)
