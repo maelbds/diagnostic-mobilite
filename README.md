@@ -2,7 +2,7 @@
 
 Le commun Diagnostic Mobilité a pour objectif d'**accompagner les territoires pour construire une mobilité durable**. 
 Pour cela, il propose une application web qui rassemble des indicateurs pour **comprendre les enjeux de mobilité 
-d’un territoire** préalablement sélectionné (en France Métropolitaine, principalement à l'échelle d'un EPCI). 
+d’un territoire** préalablement sélectionné (en France métropolitaine, principalement à l'échelle d'un EPCI). 
 
 Voir les pages de démonstration : [interface de sélection du territoire](https://mobam.fr/diagnostic-mobilite/selection/), 
 puis [interface de visualisation du diagnostic](https://mobam.fr/diagnostic-mobilite/visualisation/).
@@ -33,7 +33,7 @@ figure se distinguent :
    Elle est particulièrement adaptée pour les territoires en milieu peu dense, non couverts par les enquêtes locales.
 
 
-## Structure & Fonctionnement
+## Structure
 
 L'ensemble du code de cette application web est rassemblé dans ce répertoire. 
 Celle-ci est constituée d'une interface React :
@@ -47,14 +47,14 @@ et d'un back Python, organisé en trois parties :
 
 ## Installation
 
-###Prérequis :
+### Prérequis :
 
 - Python 3.7
 - Un environnement de développement Python (ex: PyCharm) 
 - Node.js (npm) (https://nodejs.org/en/)
 - Un dossier qui constitue l'emplacement du projet, on le nommera ici `diagnostic-mobilite/` 
 
-###1 - Mise en place de l'interface React :
+### 1 - Mise en place de l'interface React :
 
 - Avec l'invite de commande (cmd) :
   - Se rendre dans le dossier du projet : `cd votre_chemin/diagnostic-mobilite`
@@ -65,14 +65,14 @@ et d'un back Python, organisé en trois parties :
 - Vous pouvez alors démarrer l'interface : `npm start`.
 
 
-###2 - Mise en place du back Python
+### 2 - Mise en place du back Python
 
 - Au sein de votre environnement de développement Python, dans le dossier `diagnostic-mobilite/` créez un environnement virtuel (venv) qui exécute Python3.7.
 - Dans le même dossier, importer les dossiers `data_manager/`, `model/`, `server/` ainsi que le fichier `requirements.txt` depuis le répertoire Git 
 - Installer les packages du projet (vous pouvez utiliser la commande `pip install -r requirements.txt`)
 
 
-###3 - Mise en place de la base de données
+### 3 - Mise en place de la base de données
 
 - Installer MariaDB en suivant les instructions de la page https://www.mariadbtutorial.com/getting-started/install-mariadb/. 
   (Ou autre système de BDD, en prenant soin de modifier le fichier `data_manager/database_connection/sql_connect.py` en conséquence.)
@@ -84,7 +84,7 @@ et d'un back Python, organisé en trois parties :
 - Remplir la BDD selon les indications présentes dans `data_manager/`
 
 
-###4 - Utilisation
+### 4 - Utilisation
 
 - Démarrer le serveur Flask en exécutant le fichier `server/server.py`
 - Démarrer l'interface React :

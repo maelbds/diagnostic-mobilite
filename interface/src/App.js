@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      manual_mode: true, // if false, display selection page first, if true, display directly visualisation page of given json below
+      manual_mode: false, // if false, display selection page first, if true, display directly visualisation page of given json below
       file_if_manual_mode: "territory-demo_manual_mode.json", // name of territory file to display, located into public folder
       dev_mode: false, // to display a fourth section "dev", usefull to try new indicators
       graphic_chart: false, // to display the graphic chart at the end of the visualisation page

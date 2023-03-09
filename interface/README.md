@@ -1,6 +1,6 @@
-# Diagnostic Mobilité - Interface
+## Interface
 
-## Organisation
+### Organisation
 
 Cette interface, sous la forme d'une application web React, a deux objectifs :
 1. **Sélectionner le territoire d'études** et ces zones. Cela se fait avec la page de sélection `0-Home/Selection.js`, elle même découpée en trois sous-étapes :
@@ -18,7 +18,7 @@ Cette interface, sous la forme d'une application web React, a deux objectifs :
     
 Ensuite, chacune des sections est découpée en plusieurs composants selon la logique de React.
 
-## Technologies
+### Fonctionnement
 
 La mise en page utilise BootStrap v4. Les compléments css sont dans le fichier `index.css`.
 
@@ -30,7 +30,7 @@ puis on ajoute les couches d'informations depuis les éléments souhaités dans 
 Les graphiques sont générés avec Plotly.js. Là encore on retrouve les formats utilisés dans `c-PlotlyFigures/`.
 
 
-## Paramètres généraux
+### Paramètres généraux
 
 Depuis le fichier racine App.js, les paramètres d'état permettent :
 - `manual_mode` Si true, choisir d'afficher la page de visualisation du diagnostic enregistré dans le fichier json indiqué par `file_if_manual_mode`. Si false, afficher la page de sélection, pour une utilisation avec le serveur.
