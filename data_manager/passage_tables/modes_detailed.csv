@@ -1,0 +1,21 @@
+﻿id;id_main_mode;name;name_fr;ghg_emissions_factor;ghg_emissions_factor_source;cost_factor
+1;1;walk;à pied;0;;
+2;2;bike;vélo;0;;
+3;3;motorbike;moto;0,0763;Base carbone ADEME - Moto, cyclomoteur / Mixte rural & urbain (2018);
+4;4;car;voiture;0,105;Jean Coldefy;0,09495
+5;5;car passenger;voiture passager;0,105;Jean Coldefy;0,09495
+6;6;urban public transport (default);autre transport en commun urbain (par défaut);0,075;Jean Coldefy;0
+7;7;other;autre;;;
+8;2;electric bike;vélo à assistance électrique;0,011;Base carbone ADEME (2020);
+9;7;electric scooter;trottinette électrique;0,025;Base carbone ADEME (2020);
+10;6;urban bus;bus urbain;0,075;Jean Coldefy;
+11;6;tramway, subway;tramway, métro;0,005;Jean Coldefy;
+12;6;urban electric bus;bus urbain électrique;0,015;Jean Coldefy;
+13;6;not urban bus;bus hors urbain;0,03;Base carbone ADEME - Autocar (2020);
+14;6;regional express train;TER;0,03;Base Carbone ADEME (2019);
+15;6;high speed train;TGV;0,003;Base Carbone ADEME (2019);
+16;7;plane;avion;0,13;Jean Coldefy;
+17;7;river shuttle;navette fluviale;0,064;Base carbone ADEME (2009);
+18;7;taxi;taxi;0,156;Base carbone ADEME - voiture moyenne courte distance (2018);
+19;7;van;camionnette;0,156;Base carbone ADEME - voiture moyenne courte distance (2018);
+21;6;not urban public transport (default);transport en commun non urbain (par défaut);0,03;Base carbone ADEME - Autocar (2020);

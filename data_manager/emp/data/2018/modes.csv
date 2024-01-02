@@ -1,0 +1,46 @@
+﻿id_emp;name_emp;id_mode_detailed
+1;Piéton;1
+1.1;Uniquement marche à pied;1
+1.2;Porté, transporté en poussette;7
+1.3;Rollers, trottinette;7
+1.4;Fauteuil roulant (y compris motorisé);7
+2;Deux roues;2
+2.1;Bicyclette, tricycle (y compris à assistance électrique) sauf vélo en libre-service;2
+2.2;Vélo en libre-service;2
+2.3;Cyclomoteur (2 roues de moins de 50 cm3) – Conducteur;3
+2.4;Cyclomoteur (2 roues de moins de 50 cm3) – Passager;3
+2.5;Moto (plus de 50 cm3) – Conducteur (y compris avec side-car et scooter à trois roues);3
+2.6;Moto (plus de 50 cm3) – Passager (y compris avec side-car et scooter à trois roues);3
+2.7;Motocycles sans précision (y compris quads);3
+3;Automobile;4
+3.1;Voiture, VUL, voiturette… – Conducteur;4
+3.2;Voiture, VUL, voiturette… – Passager;5
+3.3;Voiture, VUL, voiturette… – Tantôt conducteur tantôt passager;4
+3.4;Trois ou quatre roues sans précision;4
+4;Transport spécialisé, scolaire, taxi;6
+4.1;Taxi (individuel, collectif), VTC;18
+4.2;Transport spécialisé (handicapé);7
+4.3;Ramassage organisé par l'employeur;6
+4.4;Ramassage scolaire;6
+5;Transport en commun urbain ou régional, autocar;6
+5.1;Autobus urbain, trolleybus;10
+5.10;Autres transports urbains et régionaux (sans précision);10
+5.2;Navette fluviale;17
+5.3;Autocar de ligne (sauf SNCF);13
+5.4;Autre autocar (affrètement, service spécialisé);13
+5.5;Autocar TER;13
+5.6;Tramway;11
+5.7;Métro, VAL, funiculaire;11
+5.8;RER, SNCF banlieue;11
+5.9;TER;14
+6;Train grande ligne ou Train à grande vitesse;15
+6.1;Train à grande vitesse, 1ère classe (TGV, Eurostar, etc.);15
+6.2;Train à grande vitesse, 2ème classe (TGV, Eurostar, etc.);15
+6.3;Autre train, 1ère classe;14
+6.4;Autre train, 2ème classe;14
+6.5;Train, sans précision;14
+7.1;Avion, classe première ou affaires;16
+7.2;Avion, classe premium économique;16
+7.3;Avion, classe économique;16
+8.1;Bateau;7
+9.1;Autre;7

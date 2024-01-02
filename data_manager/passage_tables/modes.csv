@@ -1,0 +1,8 @@
+﻿id;name;name_fr
+1;walk;à pied
+2;bike;vélo
+3;motorbike;moto
+4;car;voiture
+5;car passenger;voiture passager
+6;public transport;transport en commun
+7;other;autre

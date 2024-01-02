@@ -1,0 +1,16 @@
+﻿id;name;name_fr;id_reason;characteristic_level_0;characteristic_level_1;characteristic_level_2
+1;education;éducation;2;1;2;4
+5;shop_food;achats alimentaires;3;1;2;4
+7;services;services;4;1;2;3
+9;medical_common;santé du quotidien;4;1;1;2
+6;shop_goods;achats de biens;3;0;2;5
+2;leisure_outing;loisirs;5;0;1;2
+4;activities;activités;5;0;1;1
+3;leisure_food;restauration;5;0;1;1
+14;other;autre;8;0;0;0
+13;residential;résidentiel;6;0;0;0
+12;work;travail;1;0;0;0
+11;public transport;transport en commun;8;0;0;0
+10;medical_exceptionnal;santé exceptionnelle;4;0;0;0
+8;administrative;administratif;4;0;0;0
+15;home;domicile;10;0;0;0

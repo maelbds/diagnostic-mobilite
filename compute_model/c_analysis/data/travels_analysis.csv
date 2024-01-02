@@ -1,0 +1,2 @@
+siren,name,nb_car,nb_car_pass,nb_pt,nb_bike,nb_pedestrian,dist_car,dist_car_pass,dist_pt,dist_bike,dist_pedestrian,avg_dist
+test,,55.2,12.5,8.0,2.3,20.7,67.5,13.1,12.9,1.0,3.9,39.0

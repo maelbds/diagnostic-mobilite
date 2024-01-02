@@ -1,0 +1,59 @@
+﻿id;name;id_category
+1;school;1
+2;cinema;2
+3;theatre;2
+4;arts centre;2
+5;bowling;2
+6;restaurant;3
+7;fast food;3
+8;bar;3
+9;cafe;3
+10;sport;4
+11;music;4
+12;community centre;4
+13;supermarket;5
+14;convenience store;5
+15;bakery;5
+16;market;5
+17;focused shops common;5
+18;clothes shop;6
+19;book store;6
+20;library;2
+21;hairdresser;7
+22;beauty;7
+23;massage;7
+24;bank;7
+25;post office;7
+26;townhall;8
+27;pharmacy;9
+28;doctor;9
+29;dentist;10
+30;clinic;10
+31;hospital;10
+32;railway station;11
+33;primary school;1
+34;kindergarten;1
+35;pre school;1
+36;secondary school;1
+37;high school;1
+38;police;8
+39;justice;8
+40;public administration;8
+41;funerary;7
+42;garage;7
+43;driving school;7
+44;car rental;7
+45;temporary employment agency;7
+46;veterinary;7
+47;hardware store;6
+48;specialized shops;6
+49;laundry;7
+50;real estate agency;7
+51;flower shop;6
+52;home shop;6
+53;optician;6
+54;nurse;9
+55;garden;2
+56;gas station;7
+57;stop;11
+58;university;1
