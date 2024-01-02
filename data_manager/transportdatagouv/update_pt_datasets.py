@@ -74,6 +74,7 @@ def download_url(url, save_path, chunk_size=128):
     :return:
     """
     r = requests.get(url, stream=True)
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     with open(save_path, 'w+b') as fd:
         for chunk in r.iter_content(chunk_size=chunk_size):
             fd.write(chunk)
