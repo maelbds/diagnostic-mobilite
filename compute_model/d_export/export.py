@@ -28,8 +28,10 @@ def get_travels():
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
         os.chdir(dir_path)
-        i = 0
 
+        os.makedirs(os.path.dirname(f"data/travels_{region}.csv"), exist_ok=True)
+
+        i = 0
         for p in result.partitions(1000000):
             travels = pd.DataFrame(p, columns=["id_ind", "id_trav", "trav_nb", "w_trav",
                                                "geo_code",

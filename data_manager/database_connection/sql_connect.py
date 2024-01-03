@@ -23,7 +23,7 @@ def mariadb_connection(pool=None):
                 port=port,
                 database=database
             )
-            print("no pool")
+            #print("no pool")
         else:
             try:
                 conn = pool.get_connection()

@@ -98,7 +98,6 @@ def match_secondary_location(travels, areas, distances_matrix):
 
     # Create distance matrix by category
     category_distance_matrix = distances_matrix.copy()
-    print("category_distance_matrix_copied")
     areas_id_reason = pd.DataFrame({"id": [a_id for a_id in areas["id"]],
                                     "reason": [a_reason if a_reason != "residential" else "visits" for a_reason in areas["reason"]]}
                                    ).set_index("id")
@@ -106,7 +105,6 @@ def match_secondary_location(travels, areas, distances_matrix):
                       distances_matrix.index.values]
     index_with_categories = pd.MultiIndex.from_arrays(categories_ids, names=("reason", "id"))
     category_distance_matrix = category_distance_matrix.set_index(index_with_categories).sort_index()
-    print("category_distance_matrix indexed")
 
     # Identifying activity chains for each person
     travels = travels.sort_values(["id_ind", "trav_nb"])
@@ -163,13 +161,11 @@ def match_secondary_location(travels, areas, distances_matrix):
                                                                   travels.loc[mask_chain_length_1_find_ori, "distance"],
                                                                   travels.loc[mask_chain_length_1_find_ori, "reason_ori_name"])]
 
-    print("ch1 id_ori")
     travels.loc[mask_chain_length_1_find_des, "id_des"] = [find_ch1(id_ori, dist, reason) for id_ori, dist, reason
                                                            in zip(travels.loc[mask_chain_length_1_find_des, "id_ori"],
                                                                   travels.loc[mask_chain_length_1_find_des, "distance"],
                                                                   travels.loc[mask_chain_length_1_find_des, "reason_des_name"])]
 
-    print("ch1_id_des")
 
     # compute attributes to allocate chain 2
     attr_chain_2 = travels.loc[mask_chain_length_2].groupby(["id_ind", "chain_id"]).agg(**{
@@ -198,7 +194,6 @@ def match_secondary_location(travels, areas, distances_matrix):
     travels.loc[mask_travels_ch2_first, "id_des"] = travels.loc[mask_travels_ch2_first, "id_ch2"]
     travels.loc[mask_travels_ch2_second, "id_ori"] = travels.loc[mask_travels_ch2_first, "id_ch2"].to_list()
 
-    print("ch2")
 
     """ 
     ---- old method

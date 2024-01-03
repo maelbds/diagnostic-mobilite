@@ -46,8 +46,6 @@ USER appuser
 #COPY . .
 
 ENV DB_USER=root
-ENV DB_PASSWORD=di@gM0b
-#rootpswd
 ENV DB_DATABASE=diagnostic_mobilite
 ENV DB_HOST=mymariadb
 
@@ -55,9 +53,4 @@ ENV DB_HOST=mymariadb
 #EXPOSE 5000
 
 # Run the application.
-#CMD gunicorn -w 4 -b 0.0.0.0:5000 --timeout 60 'extension_solidaire.app:app'
-#CMD gunicorn -w 4 -b 0.0.0.0:5000 'extension_solidaire.server_prod:app'
-#python -m extension_solidaire.server
-#CMD python3 -m flask run --host=0.0.0.0
-
 CMD ["bash"]

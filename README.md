@@ -1,112 +1,216 @@
-# Outil de Diagnostic Mobilité
+## Diagnostic Mobilité -  *Modélisation et calcul de déplacements*
+
+### Présentation
+
+Le commun Diagnostic Mobilité a pour objectif d'**accompagner les territoires pour construire une mobilité durable**. 
+Pour cela, il propose une application web qui rassemble des indicateurs pour **comprendre les enjeux de mobilité d’un 
+territoire** préalablement sélectionné (en France métropolitaine, principalement à l'échelle d'un EPCI).
+
+Une partie importante du diagnostic réside dans la modélisation et le calcul des pratiques de déplacement dont une 
+analyse est ensuite proposée. **Dans ce répertoire, on trouve le code qui permet de collecter les sources qui alimenteront
+le modèle et l'algorithme qui permet le calcul des déplacements**.
 
 
-## Installation
+### Prérequis :
 
-**1 - Prérequis :**
+Les calculs ont été effectués avec le matériel suivant :
+- OS : Debian 12
+- Mémoire : 8Go + swap memory
+- Processeur : 8 CPU
+- Stockage : 50Go requis environ
 
-- Avoir Python 3.7
-- Avoir un environnement de développement Python (ex: PyCharm) 
-- Avoir Node.js (npm) (https://nodejs.org/en/)
-- Télécharger MariaDB (instructions d'installation étape 4) (https://www.mariadbtutorial.com/getting-started/install-mariadb/)
-
-**2 - Créer le projet React utilisé pour l'interface :**
-
-- Créer un dossier qui contiendra tout le code du projet, on l'appelle *0.6Planet* 
-- Avec l'invite de commande :
-  - Se rendre dans le dossier créé : `cd votre_chemin/0.6Planet`
-  - Créer le projet react avec npm : `npx create-react-app interface`
-- Un dossier *interface* est créé dans votre dossier 0.6Planet, il contient tous les éléments du projet React
-- Dans ce dossier interface, **supprimer les dossiers public et src**, ils seront remplacés par ceux du dépôt Git
+Les logiciels suivants doivent être installés au préalable :
+- Docker
+- Git
 
 
-**3 - Importer les fichiers depuis GitHub**
+### Installation :
 
-- Créer un projet dans votre environnement de développement Python, à la racine de votre dossier *0.6Planet*
-- Créer un environnement virtuel associé (venv) qui utilise Python3.7, il permettra d'exécuter le code
-- Cloner tous les fichiers contenus dans le répertoire GitHub (https://github.com/maelbds/0.6Planet.git), à la racine de votre projet
-- Installer les packages du projet (vous pouvez utiliser la commande `pip install -r requirements.txt` dans le terminal de commande)
+1. Importer le code depuis le répertoire git
 
-**4 - Créer la base de données**
-
-- Installer MariaDB en suivant les instructions de la page https://www.mariadbtutorial.com/getting-started/install-mariadb/
-  - Au cours de l'installation, garder `root` comme `user`, vous définirez un `password`, notez-le bien.
-  - Laissez `port = 3306` et les autres paramètres par défaut
-- Une fois MariaDB installé, votre serveur de BDD est prêt et HeidiSQL est également disponible : c'est le gestionnaire de BDD qui vous permettra de créer des tables, d'y accéder, de les modifier.
-- Lancer HeidiSQL, rentrer les paramètres définis lors de l'installation, ouvrez la session et vous accédez à l'interface du gestionnaire
-- Cliquer sur Fichier>Executer un fichier SQL : ouvrez le fichier db_structure.sql dans data_manager/db_backup/
-- Cliquer sur l'icone rond vert "Rafraichir" : la base de données apparaît dans la colonne à gauche, elle contient les tables nécessaires au fonctionnement de l'outil
-
-- Il faut maintenant connecter la base dans notre projet Python :
-- Dans data_manager/database_connection/, créer un fichier db_connection_info.py et renseigner les variables suivantes :
-  - `user = "root"`
-  - `password = "votre_mdp"`
-  - `host = "127.0.0.1"`
-  - `port = 3306`
-  - `database = "mobility_raw_data"`
+    ```git clone https://github.com/maelbds/diagnostic-mobilite.git --branch terristory-tims```
 
 
-**5 - Remplir la base de données**
+2. Modifier les droits pour permettre l'écriture lors du téléchargement des bases de données
 
-Certaines tables sont des dictionnaires, on les remplit directement avec un fichier SQL :
-- Cliquer sur Fichier>Executer un fichier SQL : ouvrez le fichier db_tables_with_data.sql dans data_manager/db_backup/
-- Cliquer sur l'icone rond vert "Rafraichir" :  certaines tables comme reasons, types ou modes sont désormais remplies
-
-D'autres tables, plus lourdes, doivent être remplies à partir de fichiers CSV à télécharger :
-- ENTD :
-  - Télécharger https://www.statistiques.developpement-durable.gouv.fr/sites/default/files/2021-12/donnees_individuelles_anonymisees_emp2019.zip
-  - Placer les fichiers tcm_men_public.csv, q_menage_public.csv, tcm_ind_kish_public.csv, k_individu_public.csv, k_deploc_public.csv dans data_manager/entd/data/2018/
-  - Dans save_data_from_csv_to_db_entd_2018.py, indiquer le bon chemin PATH
-  - Changer `security = True` en `security = False`, puis exécuter UNE SEULE FOIS save_data_from_csv_to_db_entd_2018.py (PREND DU TEMPS)
-  - Une fois le code executé, les tables entd dans la BDD sont remplies, remettre `security = True`
-
-- INSEE BPE :
-  - Télécharger https://www.insee.fr/fr/statistiques/fichier/3568638/bpe20_ensemble_xy_csv.zip
-  - Placer le fichier bpe20_ensemble_xy.csv dans data_manager/insee_bpe/data/2020/
-  - Dans save_data_from_csv_to_db_bpe.py changer `security = True` en `security = False`, puis exécuter UNE SEULE FOIS save_data_from_csv_to_db_bpe.py
-  - Une fois le code executé, la table insee_bpe dans la BDD est remplie, remettre `security = True`
-
-- INSEE CENSUS :
-  - Télécharger https://www.insee.fr/fr/statistiques/fichier/5542859/RP2018_INDCVI_csv.zip (500Mo)
-  - Placer le fichier FD_INDCVI_2018.csv dans data_manager/insee_census/data/2018/
-  - Dans save_data_from_csv_to_db_census.py, indiquer le bon chemin PATH
-  - Changer `security = True` en `security = False`, puis exécuter UNE SEULE FOIS save_data_from_csv_to_db_census.py (PREND DU TEMPS)
-  - Une fois le code executé, la table insee_census_2018 dans la BDD est remplie, remettre `security = True`
-  
-- INSEE GENERAL :
-  - DANS L'ORDRE
-  - Dans save_data_from_csv_to_db_geocodes.py changer `security = True` en `security = False`, puis l'exécuter UNE SEULE FOIS, remettre `security = True`
-  - Dans save_data_from_csv_to_db_canton.py changer `security = True` en `security = False`, puis l'exécuter UNE SEULE FOIS, remettre `security = True`
-  - Dans save_data_from_csv_to_db_epci.py changer `security = True` en `security = False`, puis l'exécuter UNE SEULE FOIS, remettre `security = True`
-  - Les tables insee_communes et insee_epci sont remplies
-
-- INSEE MOBPRO :
-  - Télécharger https://www.insee.fr/fr/statistiques/fichier/5395749/RP2018_mobpro_csv.zip (87Mo)
-  - Placer le fichier FD_MOBPRO_2018.csv dans data_manager/insee_mobpro/data/2018/
-  - Dans save_data_from_csv_to_db_mobpro.py, changer `security = True` en `security = False`, puis exécuter UNE SEULE FOIS save_data_from_csv_to_db_mobpro.py (PREND UN PEU DE TEMPS)
-  - Une fois le code executé, la table insee_flows_home_work dans la BDD est remplie, remettre `security = True`
-  
-- TRANSPORT DATA GOUV : (facultatif)
-  - Dans update_pt_datasets.py, changer `security = True` en `security = False`, puis exécuter UNE SEULE FOIS save_data_from_csv_to_db_mobpro.py (PREND UN PEU DE TEMPS)
-  - Certains sets de données rencontreront un problème lors de l'enregistrement, ignorer
-
-Les autres tables seront remplies lors de l'exécution du code Python, lors des calls aux API.
-
-**6 - Utilisation**
-
-- Dans votre environnement de développement Python, run main.py
-- Démarrer React :
-  - Ouvrir l'invite de commandes (cmd)
-  - Se rendre dans le dossier de l'interface `cd votre_chemin/0.6Planet/interface/`
-  - `npm start`
-  - Une fenêtre s'ouvre dans votre navigateur : elle affiche les résultats produits une fois que l'éxecution du fichier main.py est terminée
-- Pour faire des modifications de code, travaillez chacun.e sur une branche Git différente (ex : une branche hvds, une Champs Romain)
+    ```chmod -R 777 diagnostic-mobilite```
 
 
-## Description
+3. Se rendre dans le dossier du projet
 
-Cet outil établit un diagnostic des pratiques de mobilité sur un territoire donné. 
+    ```cd diagnostic-mobilite```
 
-Il rassemble les lieux d'activité du territoire, crée une population synthétique puis associe des trajets à la population. Enfin, il attribue des lieux à chaque trajet.
-On exploite alors ces trajets pour effectuer des mesures pertinentes : émissions de GES, coût, et autres indicateurs...
+
+4. Créer la base de données
+
+    ```docker network create diag_mob_app```
+
+    ```docker volume create diag_mob_db```
+
+    ```docker run --network diag_mob_app --network-alias mymariadb -v diag_mob_db:/var/lib/mysql --name mariadb_container --env MARIADB_DATABASE=diagnostic_mobilite --env MARIADB_ROOT_PASSWORD={PASSWORD} mariadb```
+
+
+5. Créer l'application et l'environnement associés au répertoire (vérifier à bien être placé dans le dossier ```diagnostic-mobilite```) 
+
+    ```docker build -t diag-mob-app .```
+
+    ```docker run --name app_container -it --env DB_PASSWORD={PASSWORD} --network diag_mob_app --mount type=bind,src="$(pwd)",target=/app diag-mob-app```
+
+Le conteneur Docker créé (```app_container```) permet d'exécuter des instructions bash.
+
+
+6. Pour finir l'installation, on remplit la base de données (le script télécharge les fichiers des sources de données 
+requises, les traite, crée et remplit les tables). *Cette opération prend quelques heures (traitement de fichiers volumineux)*.
+
+    ```python -m data_manager.load_db_compute_model```
+
+A tout moment, on peut "sortir" du conteneur sans interrompre son exécution avec CTRL P+Q. On peut "entrer" dans le 
+conteneur avec ```docker attach app_container```. Consulter le journal du conteneur avec ```docker logs app_container```.
+
+
+### Utilisation
+
+Le calcul s'effectue depuis le fichier ```compute_model.main```. 
+En le modifiant on peut sélectionner la liste des EPCIs et EPTs dont on souhaite obtenir les déplacements. (Il est 
+conseillé de produire les déplacements à l'échelle d'un EPCI ou EPT). 
+Cela s'effectue dans la fonction ```get_territories```.
+
+Le fichier en l'état permet de calculer les déplacements des territoires concernés par le programme TIMS au 
+format requis par AURA EE qui exploitera les données par la suite pour calculer les empreintes énergetique 
+et carbone des déplacements.
+
+On effectue donc les calculs (qui seront stockés dans la base de données) avec la commande suivante 
+dans le conteneur ```app_container``` :
+
+```python -m compute_model.main```
+
+On peut ensuite exporter les résultats (un fichier csv par région stockés dans 
+```compute_model.d_export.data```) avec :
+
+```python -m compute_model.d_export.export```
+
+La liste des sources qui alimentent le modèle est disponible avec :
+
+```python -m compute_model.sources```
+
+### Organisation du code
+
+Le code est scindé en deux grandes parties :
+
+- ```data_manager``` permet de collecter les données sources, de les traiter puis de créer et remplir les tables 
+  correspondantes dans la base de données. On trouve donc des sous dossiers pour chacune des sources, 
+  avec pour chacune d'elle le script de collecte, traitement et mise en base.
+- ```compute_model``` permet le calcul des déplacements. Celui-ci s'effectue en deux grandes étapes :
+    1. Tout d'abord, on crée une population synthétique pour chacune des communes qui composent les EPCIs étudiés. 
+       C'est le rôle du dossier ```a_synthetic_population```.
+    2. On calcule les déplacements en associant les individus de la population synthétique avec les individus 
+       enquêtés de l'EMP. Cette fois, l'opération s'effectue à l'échelle de l'EPCI en renseignant les codes INSEE des 
+       communes le composant. C'est le rôle du dossier ```b_survey_association```. Lors de cette opération, 
+       il est nécessaire de caractériser le territoire étudié, les éléments requis sont ainsi renseignés dans
+       le dossier ```t_territory```.
+    3. Une fois les déplacements calculés, le dossier ```c_analysis``` contient une fonction qui calcule quelques 
+       indicateurs à l'échelle du territoire d'étude ce qui permet de contrôler la cohérence des résultats obtenus.
+    4. Enfin, ```d_export``` permet d'exporter les déplacements calculés et enregistrés dans la base de données dans des 
+       fichiers csv par région.
+       
+    Le fichier ```main.py``` permet d'opérer tous les calculs et le fichier ```sources.py``` compile les sources de 
+    données utilisées par le modèle. La documentation détaillée de la méthodologie [est disponible ici](https://diagnostic-mobilite.fr/docs/methodologie_modelisation_v1.pdf).
+
+
+### Notice de traitement des déplacements calculés
+
+#### Les variables
+
+- ***id_ind*** - identifiant unique de la personne effectuant le déplacement - *str*
+- ***id_trav*** - identifiant unique du déplacement - *str*
+- ***trav_nb*** - numéro du déplacement dans la chaine de déplacements effectués par l'individu *id_ind* - *int*
+- ***w_trav*** - coefficient de pondération du déplacement - *float*
+- ***geo_code*** - code INSEE (COG 2021) de la commune de résidence de la personne effectuant le déplacement - *str*
+- ***mode*** - code EMP du mode de déplacement principal du déplacement *cf modalités EMP* - *str*
+- ***reason_ori*** - code EMP du motif d'origine du déplacement (cf modalités EMP) - *str*
+- ***reason_des*** - code EMP du motif de destination du déplacement (cf modalités EMP) - *str*
+- ***distance*** - distance du déplacement en km - *float*
+- ***geo_code_ori*** - code INSEE (COG 2021) de la commune d'origine du déplacement - *str*
+- ***geo_code_des*** - code INSEE (COG 2021) de la commune de destination du déplacement - *str*
+- ***source_id*** - identifiant de l'individu enquêté de l'EMP, associé pendant la deuxième étape du modèle, cet identifiant correspond à la variable IDENT_IND dans les tables de l'EMP - *str*
+- ***distance_emp*** - distance originale (en km) du déplacement de l'EMP associé pendant la deuxième étape du modèle, 
+  non ajustée lors de la troisième étape de l'affectation des origines/destinations - *float*
+
+#### Traitement des données
+
+Chaque déplacement de la liste représente au global *w_trav* déplacements. 
+Lors de l'analyse des déplacements, il convient donc de pondérer les attributs quantitatifs par *w_trav*.
+
+Par exemple, pour calculer la distance totale d'un ensemble de déplacements, on multiplie pour chaque déplacement 
+la distance du déplacement par le coefficient de pondération, puis on somme les distances ainsi pondérées. 
+Le nombre total de déplacements correspond lui à la somme des coefficients de pondération.
+
+Chaque individu *id_ind* correspond bien à un seul individu, on pourrait donc attribuer une colonne *w_ind* = 1.
+Ainsi pour avoir la distance moyenne par personne, on calcule la distance totale parcourue puis on divise par le nombre 
+d'individus uniques.
+
+
+#### Indications pour le lien avec l'EMP
+
+La méthodologie employée pour construire la demande de déplacements qui constitue le fichier des déplacements fonctionne
+en trois temps ([détails ici](https://diagnostic-mobilite.fr/docs/methodologie_modelisation_v1.pdf)) :
+
+1. Construction d'une population synthétique = clone fictif de la population du territoire d'étude
+2. Association de chaque individu de la population synthétique avec un individu de l'EMP et avec lui ses déplacements
+3. Attribution d'un lieu d'origine et de destination à chaque déplacement
+
+Lors de l'étape 2, on enregistre l'identifiant de l'individu de l'EMP associé, c'est l'attribut *source_id* qui équivaut 
+à *IDENT_IND* pour l'EMP. Chaque déplacement a aussi un attribut *trav_nb* directement repris depuis l'EMP. 
+Le couple *source_id*=*IDENT_IND* & *trav_nb* est une clé qui permet d'identifier le déplacement original de l'EMP, et 
+donc d'obtenir des variables de l'EMP non reprises dans les déplacements produits ici. 
+
+Par exemple, le SDES qui produit l'EMP a récemment ajouté des informations sur les émissions de GES pour chaque déplacement
+qui pourraient être utiles pour affiner le calcul des émissions (à approfondir selon la méthodologie du SDES, non disponible en ligne).
+
+
+#### Exemple de résultats obtenus 
+
+On donne ici des analyses obtenues selon les regroupements proposés dans le fichier ```correspondances_modes.csv```, données 
+à titre d'exemple et de comparaison. 
+
+- *Pour l'EPCI 200035848* :
+
+```
+-- MODES --
+                     nombre - %  distance - %  effectif
+mode_name_fr
+autre                       0.9           0.9        66
+moto                        0.5           0.9        28
+transport en commun         3.1           3.9       235
+voiture                    62.1          71.9      2635
+voiture passager           13.1          17.4       894
+vélo                        2.6           1.3       129
+à pied                     17.6           3.7       940
+
+-- DISTANCE --
+Distance moyenne (km/pers) 36
+```
+
+- Pour l'EPCI *200035707* :
+
+```
+-- MODES --
+                     nombre - %  distance - %  effectif
+mode_name_fr
+autre                       0.9           0.8       161
+moto                        0.8           1.3        98
+transport en commun         4.2           5.6       842
+voiture                    62.5          72.6      7123
+voiture passager           14.5          16.2      2560
+vélo                        2.3           1.0       306
+à pied                     14.7           2.6      2251
+
+-- DISTANCE --
+Distance moyenne (km/pers) 42
+```
+
+### Contribution
+
+Ce projet est un commun et tout retour est le bienvenue 
+pour contribuer à l'amélioration du modèle!
 

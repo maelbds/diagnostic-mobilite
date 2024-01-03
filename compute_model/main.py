@@ -49,7 +49,6 @@ def compute_and_save_travels(territories):
         print(f"{siren} - {round(i/n_missing_sirens * 100)}%")
         geo_codes = territories.loc[territories["siren"] == siren, "geo_code"].to_list()
         travels, analysis = compute_travels_demand(geo_codes, emp_persons, emp_travels)
-        print("saving")
         save_travels(travels)
         save_travels_analysis(siren, analysis)
         i += 1

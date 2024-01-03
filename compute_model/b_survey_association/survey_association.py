@@ -103,11 +103,8 @@ def compute_travels_demand(geo_codes, emp_persons, emp_travels):
     print(" - set secondary loc")
 
     # 4 - format travels
-    print("computed_dist")
     syn_pop_travels = compute_distance(syn_pop_travels, dist_matrix_areas)
-    print("compute geocodes")
     syn_pop_travels = compute_ori_des_geocode(syn_pop_travels, all_areas)
-    print("format travels")
     syn_pop_travels_f = format_travels(syn_pop_travels)
 
     if __name__ == '__main__':
