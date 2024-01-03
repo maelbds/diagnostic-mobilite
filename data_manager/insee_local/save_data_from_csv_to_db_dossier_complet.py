@@ -89,6 +89,8 @@ def load_dossier_complet(pool, table_name):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     os.chdir(dir_path)
 
+    download_files()
+
     print(f"{table_name} - saving...")
     data, cols = get_data_from_csv()
     create_db(pool, cols, table_name)
