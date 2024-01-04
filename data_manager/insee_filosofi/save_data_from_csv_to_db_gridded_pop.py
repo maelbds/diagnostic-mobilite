@@ -39,7 +39,6 @@ def read_gridded_pop_csv():
     g_pop["year_cog"] = "2021"
     g_pop = g_pop.replace({np.nan: None})
 
-    print(g_pop)
     return g_pop
 
 

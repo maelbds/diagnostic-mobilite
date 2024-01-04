@@ -91,9 +91,6 @@ def get_emp():
     persons_with_hh_and_activities = persons_with_hh_and_activities.replace({np.nan: None})
     travels = travels.replace({np.nan: None})
 
-    print(travels)
-    print(persons_with_hh_and_activities)
-
     return persons_with_hh_and_activities, travels
 
 

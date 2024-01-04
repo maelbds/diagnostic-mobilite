@@ -36,7 +36,6 @@ def read_shp_outlines():
         geom_wkb = wkb.dumps(geom_coll)
         return geom_wkb
 
-    print("Reading shp EPCI")
     sf = shapefile.Reader(
         "data/2021/ADMIN-EXPRESS-COG_3-0__SHP_WGS84G_FRA_2021-05-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2021-05-19/ADECOG_3-0_SHP_WGS84G_FRA/EPCI")
     shapes = sf.shapeRecords()
@@ -57,7 +56,6 @@ def read_shp_outlines():
         "year_cog": "2021"
     } for s in shapes])
     epcis = epcis.replace({np.nan: None})
-    print(epcis)
 
     """
     epci = pd.DataFrame({"epci_siren": [o["properties"]["CODE_SIREN"] for o in outlines]})

@@ -111,7 +111,6 @@ def compute_travels_demand(geo_codes, emp_persons, emp_travels):
         print(syn_pop_travels)
         print(syn_pop_travels_f)
 
-    print("analyse")
     analysis = analyse_travels(syn_pop_travels)
 
     return syn_pop_travels_f, analysis

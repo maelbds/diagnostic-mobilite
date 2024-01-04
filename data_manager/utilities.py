@@ -59,7 +59,7 @@ def load_file(name, url, dir, zip_name, file_name):
         # 2 - unzip ZIP
         try:
             unzip_paths = unzip(zip_path, dir)
-            print(unzip_paths)
+            #print(unzip_paths)
         except zipfile.BadZipFile:
             unzip_paths = []
             print("This dataset is not a zip file.")
@@ -83,7 +83,7 @@ def load_file_ign(name, url, dir, zip_name, file_name):
         download_url(url, zip_path)
         # 2 - unzip ZIP
         unzip_paths = unzip7z(zip_path, dir)
-        print(unzip_paths)
+        #print(unzip_paths)
         # 3 - delete ZIP file
         try:
             os.remove(zip_path)
@@ -105,7 +105,7 @@ def load_file_gridded_pop(name, url, dir, zip_name1, zip_name2, file_name):
         try:
             unzip_paths = unzip(zip_path, dir)
             unzip_paths = unzip7z(zip_path2, dir)
-            print(unzip_paths)
+            #print(unzip_paths)
         except zipfile.BadZipFile:
             unzip_paths = []
             print("This dataset is not a zip file.")

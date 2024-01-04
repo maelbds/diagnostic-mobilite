@@ -31,7 +31,6 @@ def get_data_from_csv_and_save_to_db(pool, table_name):
     cols = {col: "VARCHAR(50)" for col in cols}
 
     data = pd.read_csv("data/2018/FD_INDCVI_2018.csv", sep=";", dtype=str, usecols=cols)  # , nrows=10000)
-    print(data)
 
     batch = 1000000
     total = len(data)
@@ -44,7 +43,6 @@ def get_data_from_csv_and_save_to_db(pool, table_name):
         data_batch["year_data"] = "2018"
         data_batch["year_cog"] = "2021"
         data_batch = data_batch.replace({np.nan: None})
-        print(data_batch)
 
         create_db(pool, cols, table_name)
         save_to_db(pool, data_batch, table_name)

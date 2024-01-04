@@ -45,7 +45,6 @@ def read_shp_outlines():
         surface = round(area(geom_coll_lambert) / 1000000, 2)  # m² to km²
         return surface
 
-    print("Reading shp communes")
     sf = shapefile.Reader(
         "data/2021/ADMIN-EXPRESS-COG_3-0__SHP_WGS84G_FRA_2021-05-19/ADMIN-EXPRESS-COG/1_DONNEES_LIVRAISON_2021-05-19/ADECOG_3-0_SHP_WGS84G_FRA/COMMUNE")
     shapes = sf.shapeRecords()
