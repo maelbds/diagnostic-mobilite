@@ -1,10 +1,14 @@
+import pprint
+
+import mariadb
 import pandas as pd
 import numpy as np
 from shapely.geometry import Point, Polygon
 
 from data_manager.database_connection.sql_connect import mariadb_connection
-from data_manager.ign.commune_outline import get_commune_outline
+from data_manager.osm.commune_outline import get_commune_outline
 
+from model.public_transport import PublicTransport
 
 """
 Functions to get public transport info from database.
@@ -216,13 +220,8 @@ def get_public_transport_from_detailed_trips(detailed_trips):
         main_trip = main_trip.sort_values(by=["stop_sequence"])
 
         public_transport.append(
-            {"route_id": route_id,
-             "route_short_name": route_short_name,
-             "route_long_name": route_long_name,
-             "route_type": route_type,
-             "stops_name": main_trip["stop_name"],
-             "stops_lat": main_trip["stop_lat"],
-             "stops_lon": main_trip["stop_lon"]}
+            PublicTransport(route_id, route_short_name, route_long_name, route_type,
+                            main_trip["stop_name"], main_trip["stop_lat"], main_trip["stop_lon"])
         )
 
         if __name__ == '__main__':
@@ -236,7 +235,7 @@ def get_public_transport_from_detailed_trips(detailed_trips):
 
 
 def get_public_transport(pool, geo_codes):
-    outlines = [sum(get_commune_outline(pool, geo_code), []) for geo_code in geo_codes]
+    outlines = [sum(get_commune_outline(geo_code), []) for geo_code in geo_codes]
 
     min_lat = min([min(np.array(outline)[:, 0]) for outline in outlines])
     max_lat = max([max(np.array(outline)[:, 0]) for outline in outlines])
@@ -281,21 +280,27 @@ def merge_routes(route1, route2):
 
 def get_main_trips_from_geo_codes(pool, geo_codes):
     conn = mariadb_connection(pool)
-    cur = conn.cursor()
-    cur.execute("""SELECT g.datagouv_id, 
-                          g.route_id,
-                          r.route_short_name, r.route_long_name, r.route_type,
-                          t.trip_id,
-                          st.stop_id, st.stop_sequence,
-                          s.stop_name, s.stop_lat, s.stop_lon
-                FROM datagouv_pt_geocodes AS g
-                JOIN datagouv_pt_routes AS r ON g.datagouv_id = r.datagouv_id AND g.route_id = r.route_id
-                JOIN datagouv_pt_trips AS t ON g.datagouv_id = t.datagouv_id AND g.main_trip_id = t.trip_id
-                JOIN datagouv_pt_stop_times AS st ON g.datagouv_id = st.datagouv_id AND t.trip_id = st.trip_id
-                JOIN datagouv_pt_stops AS s ON g.datagouv_id = s.datagouv_id AND st.stop_id = s.stop_id
-                WHERE g.geo_code IN (""" + ",".join(["?" for g in geo_codes]) + ")", geo_codes)
-    result = list(cur)
-    conn.close()
+    result = None
+    try:
+        cur = conn.cursor()
+        cur.execute("""SELECT g.datagouv_id, 
+                              g.route_id,
+                              r.route_short_name, r.route_long_name, r.route_type,
+                              t.trip_id,
+                              st.stop_id, st.stop_sequence,
+                              s.stop_name, s.stop_lat, s.stop_lon
+                    FROM datagouv_pt_geocodes AS g
+                    LEFT JOIN datagouv_pt_routes AS r ON g.datagouv_id = r.datagouv_id AND g.route_id = r.route_id
+                    LEFT JOIN datagouv_pt_trips AS t ON g.datagouv_id = t.datagouv_id AND g.main_trip_id = t.trip_id
+                    LEFT JOIN datagouv_pt_stop_times AS st ON g.datagouv_id = st.datagouv_id AND t.trip_id = st.trip_id
+                    LEFT JOIN datagouv_pt_stops AS s ON g.datagouv_id = s.datagouv_id AND st.stop_id = s.stop_id
+                    WHERE g.geo_code IN (""" + ",".join(["?" for g in geo_codes]) + ")", geo_codes)
+        result = list(cur)
+    except mariadb.Error as e:
+        print(f"Error with MariaDB request: {e}")
+    finally:
+        conn.close()
+
     main_trips = pd.DataFrame(result, columns=["datagouv_id",
                                                    "route_id",
                                                    "route_short_name", "route_long_name", "route_type",
@@ -305,22 +310,20 @@ def get_main_trips_from_geo_codes(pool, geo_codes):
     return main_trips
 
 
-def get_public_transport2(pool, geo_codes):  # WORK IN PROGRESS
+def get_public_transport2(pool, geo_codes):
     public_transport = []
     main_trips = get_main_trips_from_geo_codes(pool, geo_codes)
     main_trips = main_trips.sort_values(by=["route_id", "trip_id", "stop_sequence"])
 
     main_trips.groupby(by="trip_id").apply(lambda df: public_transport.append(
-        {"route_id": df["route_id"].iloc[0],
-         "route_short_name": df["route_short_name"].iloc[0],
-         "route_long_name": df["route_long_name"].iloc[0],
-         "route_type": df["route_type"].iloc[0],
-         "stops_name": df["stop_name"],
-         "stops_lat": df["stop_lat"],
-         "stops_lon": df["stop_lon"]}
+        PublicTransport(df["route_id"].iloc[0],
+                        df["route_short_name"].iloc[0],
+                        df["route_long_name"].iloc[0],
+                        df["route_type"].iloc[0],
+                        df["stop_name"], df["stop_lat"], df["stop_lon"])
     ))
 
-    if __name__ == '__main__' and False:
+    if __name__ == '__main__':
         for pt in public_transport:
             print(pt.to_dict())
             pt.plot_route()
@@ -341,10 +344,10 @@ if __name__ == "__main__":
     trip_id_test = "DSE:VehicleJourney:1006457-1006633"
     stop_id_test = "NAQ:Quay:19400"
     """
-    get_public_transport2(None, ["69123"])
-    public_transport_test = get_public_transport(None, ["79048"])
-    for p in public_transport_test:
-        p.presentation()
+    print(get_public_transport2(None, ["51454"]))
+    #public_transport_test = get_public_transport(None, ["69123"])
+    #for p in public_transport_test:
+    #    p.presentation()
 
     """
     trip1 = ["a", "b", "c", "d", "e"]

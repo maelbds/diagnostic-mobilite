@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from shapely import geometry, wkb
 import matplotlib.pyplot as plt
 
@@ -52,7 +53,7 @@ if __name__ == "__main__":
     pd.set_option('display.max_rows', 50)
     pd.set_option('display.width', 2000)
 
-    emd_geo = get_emd_geo(None, "montpellier")
+    emd_geo = get_emd_geo(None, "lyon")
     print(emd_geo)
     print(emd_geo.drop(columns=["geometry"]).drop_duplicates(subset="geo_code").set_index("geo_code"))
 

@@ -8,8 +8,7 @@ class SourcesRow extends React.Component {
     return(
       <div className="row mt-1">
         <div className="col">
-         <SourcesP sources={this.props.sources}
-                   concerned={this.props.concerned}/>
+         <SourcesP selected_sources={this.props.selected_sources}/>
         </div>
       </div>
     )

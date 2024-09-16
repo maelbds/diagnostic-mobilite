@@ -7,11 +7,11 @@ class FormBanner extends React.Component {
   render() {
 
     return(
-      <div className="row fixed-bottom" style={{backgroundColor: c_gradient_reds[1]}}>
+      <div className="row fixed-bottom" style={{backgroundColor: c_gradient_reds[1], zIndex: 5000}}>
        <div className="col">
          <p className="m-2 text-center">
            <a target="_blank" href={this.props.link}>
-             Une remarque ? Dites-nous votre avis sur cette interface
+             {this.props.label}
            </a>
          </p>
        </div>

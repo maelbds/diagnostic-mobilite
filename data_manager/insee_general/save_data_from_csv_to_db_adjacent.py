@@ -1,55 +1,72 @@
 import pandas as pd
 import numpy as np
-from pyproj import Transformer
-import time
+import os
 
-from data_manager.database_connection.sql_connect import mariadb_connection
+from data_manager.db_functions import load_database
+from data_manager.sources.sources import missing_sources_for_table, save_source
+from data_manager.utilities import load_file, download_url
 
 
-def get_adjacent_from_csv():
+def download_file(id, name, table_name, label, link, reference, year_data, year_cog):
+    f = {
+        "name": id,
+        "url": link,
+        "dir": f"data/{year_cog}",
+        "zip_name": f"communes_adjacentes_{year_cog}.zip",
+        "file_name": f"communes_adjacentes_{year_cog}.csv",
+    }
+
+    return load_file(f["name"], f["url"], f["dir"], f["zip_name"], f["file_name"])
+
+
+def get_adjacent_from_csv(file_name, id, name, table_name, label, link, reference, year_data, year_cog):
     cols = ["insee", "insee_voisins"]
-    data = pd.read_csv(
-        "data/2022/communes_adjacentes_2022.csv",
-        sep=",", dtype=str,
-        usecols=cols)
+    data = pd.read_csv(file_name, sep=",", dtype=str, usecols=cols)
+
     data = data.rename(columns={"insee": "geo_code", "insee_voisins": "geo_code_neighbor"})
     data["geo_code_neighbor"] = data["geo_code_neighbor"].apply(lambda x: x.split("|"))
     data = data.explode("geo_code_neighbor").drop_duplicates()
+
+    data = data.replace({np.nan: None})
+    data["year_cog"] = year_cog
     return data
 
 
-def save_adjacent_from_csv_to_db(data):
-    """
-    Read data from csv file & add it to the database
-    :return:
-    """
-    conn = mariadb_connection()
-    cur = conn.cursor()
+def load_adjacent(pool):
+    table_name = "osm_adjacent"
+    cols_table = {
+        "geo_code": "VARCHAR(12) NOT NULL",
+        "geo_code_neighbor": "VARCHAR(12) NOT NULL",
 
-    cols_name = "(" + ", ".join([col for col in data.columns]) + ", source)"
-    values_name = "(" + ", ".join(["?" for col in data.columns]) + ", 'OSM_2022')"
+        "year_cog": "VARCHAR(12) NOT NULL",
+    }
+    keys = "PRIMARY KEY (geo_code, geo_code_neighbor, year_cog) USING BTREE"
 
-    def request(cur, cols):
-        cur.execute("""INSERT INTO osm_adjacent """ + cols_name + """ VALUES """ + values_name, cols)
+    ms = missing_sources_for_table(table_name)
+    for missing_source in zip(ms["id"], ms["name"], ms["table_name"], ms["label"], ms["link"], ms["reference"], ms["year_data"], ms["year_cog"]):
+        id, name, table_name, label, link, reference, year_data, year_cog = missing_source
 
-    [request(cur, list(row.values)) for index, row in data.iterrows()]
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        os.chdir(dir_path)
 
-    conn.commit()
-    conn.close()
+        file_name = download_file(*missing_source)
+        data = get_adjacent_from_csv(file_name, *missing_source)
+
+        load_database(pool, table_name, data, cols_table, keys)
+
+        os.remove(file_name)
+        save_source(pool, *missing_source)
 
 
 # ---------------------------------------------------------------------------------
 
 if __name__ == "__main__":
     pd.set_option('display.max_columns', 50)
-    pd.set_option('display.max_rows', 50)
+    pd.set_option('display.max_rows', 70)
     pd.set_option('display.width', 2000)
-
-    adjacent = get_adjacent_from_csv()
-    print(adjacent)
-
 
     # to prevent from unuseful loading data
     security = False
     if not security:
-        save_adjacent_from_csv_to_db(adjacent)
+        load_adjacent(None)
+

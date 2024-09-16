@@ -1,0 +1,15 @@
+id_univ_type;name_univ_type;id_type;id_category;characteristic
+APPL;Ecoles d'application du premier degré;58;1;1
+CFA;Centres de formation d'apprentis;58;1;1
+CNED;Centres d'enseignement à distance;58;1;1
+CONT;Formation continue ou interniveaux;58;1;1
+CSAV;Corps savants et établissements sans enseignement;58;1;1
+EFE;Ecoles françaises à l'étranger;58;1;1
+FORP;Formation initiale continue des professeurs;58;1;1
+GRET;Groupement d'établissements pour la formation continue;58;1;1
+ING;Ecoles d'ingénieurs;58;1;1
+JS;Jeunesse et sports;58;1;1
+PBAC;Autres écoles post-bac non universitaires;58;1;1
+PRES;Pôles de recherche et d'enseignement supérieur;58;1;1
+SERV;Services communs des universités;58;1;1
+UNIV;Universités et INP hors écoles d'ingenieurs;58;1;1

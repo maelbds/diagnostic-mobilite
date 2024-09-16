@@ -1,0 +1,15 @@
+COG = "2021"
+COG_census = "2020"
+COG_adjacent = "2022"  #former communes included
+COG_train_stations = "2023"
+
+year_census = "2018"
+year_dossier_complet = "2018"
+year_communes_status = "2020"
+year_communes_density = "2020"
+year_mobpro = "2018"
+year_gridded_pop = "2017"
+year_bpe = "2021"
+year_schools = "2024"
+year_universities = "2017"
+year_train_stations = "2024"

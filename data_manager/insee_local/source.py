@@ -25,7 +25,6 @@ source_topography_label = "Taux d'artificialisation des sols (%) (Union europée
 source_topography_link = "https://statistiques-locales.insee.fr/#c=indicator&view=map1"
 
 
-
 # ---------------------
 
 SOURCE_JOBS_NB = "INSEE_RP_2018"
@@ -43,3 +42,7 @@ source_dossier_complet_link = "https://www.insee.fr/fr/statistiques/5359146#cons
 source_dossier_couples_familles_menages_label ="Recensement de la population, Logement (INSEE 2018)"
 source_dossier_couples_familles_menages_link = "https://www.insee.fr/fr/statistiques/5395856?sommaire=5395912#consulter"
 
+# DOSSIER COMPLET MOBIN
+SOURCE_DC_MOBIN = "2020"
+source_dc_mobin_label = "Recensement de la population, Dossier complet (INSEE 2020)"
+source_dc_mobin_link = "https://www.insee.fr/fr/statistiques/5359146#consulter"

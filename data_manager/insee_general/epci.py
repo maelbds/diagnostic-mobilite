@@ -11,10 +11,10 @@ from data_manager.insee_general.source import SOURCE_EPCI
 def get_geo_codes_from_epci_name(name, source=SOURCE_EPCI):
     conn = mariadb_connection()
     cur = conn.cursor()
-    cur.execute("""SELECT geo_code FROM insee_communes_epci
+    cur.execute("""SELECT CODGEO FROM insee_epci_communes
                 JOIN insee_epci
-                ON insee_communes_epci.epci_siren = insee_epci.epci_siren
-                WHERE insee_epci.epci_name = ? AND insee_epci.source = ? AND insee_communes_epci.source = ?""",
+                ON insee_epci_communes.EPCI = insee_epci.EPCI
+                WHERE insee_epci.LIBEPCI = ? AND insee_epci.year_data = ? AND insee_epci_communes.year_data = ?""",
                 [name, source, source])
     result = list(cur)
     epci = pd.DataFrame(result, columns=["geo_code"], dtype=str)
@@ -25,10 +25,10 @@ def get_geo_codes_from_epci_name(name, source=SOURCE_EPCI):
 def get_all_epci(source=SOURCE_EPCI):
     conn = mariadb_connection()
     cur = conn.cursor()
-    cur.execute("""SELECT insee_epci.epci_siren, epci_name, outline_light  
+    cur.execute("""SELECT insee_epci.EPCI, LIBEPCI, outline  
                 FROM insee_epci
-                JOIN ign_epci_outline ON insee_epci.epci_siren = ign_epci_outline.epci_siren
-                WHERE insee_epci.source = ?
+                JOIN ign_epci_outline ON insee_epci.EPCI = ign_epci_outline.epci_siren
+                WHERE insee_epci.year_data = ?
                 """, [source])
     result = list(cur)
     epci = pd.DataFrame(result, columns=["epci_siren", "epci_name", "outline_light"])
@@ -48,8 +48,8 @@ def get_all_epci(source=SOURCE_EPCI):
 def get_epci(pool, geo_code, source=SOURCE_EPCI):
     conn = mariadb_connection(pool)
     cur = conn.cursor()
-    cur.execute("""SELECT epci_siren FROM insee_communes_epci
-                WHERE geo_code = ? AND source = ?""",
+    cur.execute("""SELECT EPCI FROM insee_epci_communes
+                WHERE CODGEO = ? AND year_data = ?""",
                 [geo_code, source])
     result = list(cur)
     conn.close()

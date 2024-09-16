@@ -1,9 +1,12 @@
+import os
+
 import pandas as pd
 import numpy as np
 from pyproj import Transformer
 import time
 
 from data_manager.database_connection.sql_connect import mariadb_connection
+from data_manager.db_functions import load_database
 
 
 def get_cog_from_csv():
@@ -16,6 +19,7 @@ def get_cog_from_csv():
         usecols=cols)
     print(data)
     data["COG"] = 2022
+    data["id"] = data.index.values
     data.rename(columns={"MOD": "MODA"}, inplace=True)
     return data
 
@@ -41,6 +45,28 @@ def save_cog_to_db(cog):
 
     conn.commit()
     conn.close()
+
+
+def load_cog_evenements(pool, table_name):
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
+
+    data = get_cog_from_csv()
+
+    cols_table = {
+        "id": "INT(11) NOT NULL",
+        "MODA": "VARCHAR(12) NOT NULL",
+        "DATE_EFF": "DATE NOT NULL",
+        "TYPECOM_AV": "VARCHAR(12) NOT NULL",
+        "COM_AV": "VARCHAR(12) NOT NULL",
+        "TYPECOM_AP": "VARCHAR(12) NOT NULL",
+        "COM_AP": "VARCHAR(12) NOT NULL",
+        "COG": "VARCHAR(12) NOT NULL",
+    }
+    keys = "PRIMARY KEY (id) USING BTREE"
+
+    load_database(pool, table_name, data, cols_table, keys)
+
 
 
 # ---------------------------------------------------------------------------------

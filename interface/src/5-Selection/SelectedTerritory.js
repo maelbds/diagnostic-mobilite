@@ -90,13 +90,20 @@ class SelectedTerritory extends React.Component {
              </div>
 
              <div className="row m-0">
-               <div className="col-auto p-2 pr-3" style={{backgroundColor: c_green_text_t, cursor: "pointer"}}
-                     onClick={this.props.loadTerritory.bind(this,
-                                                  this.state.title,
-                                                  this.props.selected_communes,
-                                                  this.props.selected_zones)}>
-                 <p><b>→ Obtenir le diagnostic </b></p>
+               <div className="col-auto p-2 pr-3"
+                    style={{backgroundColor: c_green_text_t, cursor: "pointer"}}
+                    onClick={this.props.loadTerritory.bind(this,
+                                                this.state.title,
+                                                this.props.selected_communes,
+                                                this.props.selected_zones)}
+                  >
+                 <p>
+                  {/*<a href="https://forms.gle/KkWyGsG7ubLRaoWq6" target="_blank">*/}
+                    <b>→ Obtenir le diagnostic </b>
+
+                </p>
                </div>
+
              </div>
 
           </div>

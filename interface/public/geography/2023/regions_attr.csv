@@ -1,0 +1,19 @@
+reg,reg_chef_lieu,reg_name
+01,97105,Guadeloupe
+02,97209,Martinique
+03,97302,Guyane
+04,97411,La Réunion
+06,97611,Mayotte
+11,75056,Île-de-France
+24,45234,Centre-Val de Loire
+27,21231,Bourgogne-Franche-Comté
+28,76540,Normandie
+32,59350,Hauts-de-France
+44,67482,Grand Est
+52,44109,Pays de la Loire
+53,35238,Bretagne
+75,33063,Nouvelle-Aquitaine
+76,31555,Occitanie
+84,69123,Auvergne-Rhône-Alpes
+93,13055,Provence-Alpes-Côte d'Azur
+94,2A004,Corse

@@ -1,40 +1,36 @@
-def filter_cities(census):
-    # remove people living in city
-    census = census[census["IRIS"] == "ZZZZZZZZZ"]
+import pandas as pd
+
+
+def filter_without_households(census, cols):
+    # people without households represents 2.2% of total pop
+    mask_people_with_household = (census.loc[:, "INPER"] != "Y") & \
+                                 (census.loc[:, "INPER"] != "Z") & \
+                                 (census.loc[:, "NUMMI"] != "Z")
+    census = census.loc[mask_people_with_household].copy(deep=False)
+    #cols.update({"with_household": "INT(1)"})
     return census
 
 
-def filter_households(census):
-    # remove people with no households
-    census = census.loc[(census.loc[:, "INPER"] != "Y") &
-                        (census.loc[:, "INPER"] != "Z") &
-                        (census.loc[:, "NUMMI"] != "Z")]
+def add_proper_household_id(census, cols):
+    census["id_census_hh"] = census["CANTVILLE"].astype(str) + "_" + census["NUMMI"].astype(str)
+    cols.update({"id_census_hh": "VARCHAR(20)"})
     return census
 
 
-def add_proper_household_id(census):
-    # case of people not in household
-    census = census.astype({"NUMMI": "int64",
-                            "CANTVILLE": "int64"})
-    census["id_census_hh"] = census["CANTVILLE"] * 1000000 + census["NUMMI"]
+def complete_missing_nenfr(census, cols):
+    census_nb_child = census.groupby("id_census_hh", as_index=None)[["NENFR"]].agg(lambda x: x.mode().iloc[0])
+    census_nb_child["nb_child"] = census_nb_child["NENFR"].replace({"Z": 0})
+    census = pd.merge(census, census_nb_child[["id_census_hh", "nb_child"]], on="id_census_hh", how="left")
+    cols.update({"nb_child": "INT(2)"})
+    census["nb_child"] = census["nb_child"].astype("int")
     return census
 
 
-def complete_missing_nenfr(census):
-    def find_child_nb(hh_id):
-        mask_hh = census["id_census_hh"] == hh_id
-        child_nb = census.loc[mask_hh, "NENFR"].mode().iloc[0]
-        return child_nb if child_nb != "Z" else 0
-    mask_missing_nenfr = census["NENFR"] == "Z"
-    census.loc[mask_missing_nenfr, "NENFR"] = census.loc[mask_missing_nenfr, "id_census_hh"].apply(lambda x: find_child_nb(x))
-    return census
-
-
-def create_status_attribute(census):
-    def create_status(row):
-        tact = int(row["TACT"])
-        age = int(row["AGED"])
-        etud = int(row["ETUD"])
+def create_status_attribute(census, cols):
+    def create_status(tact, age, etud):
+        tact = int(tact)
+        age = int(age)
+        etud = int(etud)
         if tact == 11:
             return "employed"
         elif tact == 21:
@@ -67,65 +63,56 @@ def create_status_attribute(census):
         else:
             return "other"
 
-    census["status"] = census.apply(lambda row: create_status(row), axis=1)
+    census["status"] = [create_status(tact, age, etud) for tact, age, etud
+                        in zip(census["TACT"], census["AGED"], census["ETUD"])]
+    cols.update({"status": "VARCHAR(15)"})
     return census
 
 
-def create_work_within_commune(census):
+def create_work_within_commune(census, cols):
     workers_in_commune = census["ILT"] == "1"
     census.loc[workers_in_commune, "work_within_commune"] = 1
     census["work_within_commune"].fillna(value=0, inplace=True)
+    cols.update({"work_within_commune": "INT(1)"})
+    census["work_within_commune"] = census["work_within_commune"].astype("int")
     return census
 
 
-def create_hh_type(census):
-    census["TYPMR"] = census["TYPMR"].astype("float64")
-    census["TYPMR"] = census["TYPMR"]/10
-    census["TYPMR"] = census["TYPMR"].astype("int32")
+def create_hh_type(census, cols):
+    typmr = census["TYPMR"].astype("float64")
+    typmr = typmr/10
+    typmr = typmr.astype("int32")
+    census["hh_type"] = typmr
+    cols.update({"hh_type": "INT(1)"})
     return census
 
 
-def create_hh_cars_nb(census):
-    census.loc[census["VOIT"] == "3", "VOIT"] = "2"  # change "Trois voiture ou plus" to "Deux voitures ou plus"
+def create_hh_cars_nb(census, cols):
+    census["nb_car"] = census["VOIT"]
+    census.loc[census["nb_car"] == "3", "nb_car"] = "2"  # change "Trois voiture ou plus" to "Deux voitures ou plus"
+    cols.update({"nb_car": "INT(1)"})
+    census["nb_car"] = census["nb_car"].astype("int")
     return census
 
 
-def format_names_types(census):
-    census = census.rename(columns={
-        "ID": "id_census_ind",
-        "IPONDI": "w_census_ind",
-        "SEXE": "sexe",
-        "AGED": "age",
-        "CS1": "csp",
-        "INPER": "nb_pers",
-        "NENFR": "nb_child",
-        "TYPMR": "hh_type",
-        "VOIT": "nb_car",
-        "TRANS": "work_transport"
-    })
-    census.drop(columns=["NUMMI", "CANTVILLE", "TACT", "ETUD", "ILT"], inplace=True)
-    census = census.astype({"w_census_ind": "float64",
-                            "id_census_hh": "str",
-                            "sexe": "int32",
-                            "age": "int32",
-                            "csp": "int32",
-                            "nb_pers": "int32",
-                            "nb_child": "int32",
-                            "nb_car": "int32",
-                            "work_within_commune": "int32"})
+def complete_csp(census, cols):
+    census["csp"] = census["CS1"]
+    mask_retired = census["status"] == "retired"
+    census.loc[mask_retired, "csp"] = 7
+    cols.update({"csp": "INT(1)"})
+    census["csp"] = census["csp"].astype("int")
     return census
 
 
 def prepare_census(census):
-    # census = filter_cities(census)
-    census = filter_households(census)
-    census = add_proper_household_id(census)
-    census = complete_missing_nenfr(census)
-    census = create_status_attribute(census)
-    census = create_work_within_commune(census)
-    census = create_hh_type(census)
-    census = create_hh_cars_nb(census)
-    census = format_names_types(census)
-    census.loc[census["status"] == "retired", "csp"] = 7
-    return census
+    cols = {}
+    census = filter_without_households(census, cols)
+    census = add_proper_household_id(census, cols)
+    census = complete_missing_nenfr(census, cols)
+    census = create_status_attribute(census, cols)
+    census = create_work_within_commune(census, cols)
+    census = create_hh_type(census, cols)
+    census = create_hh_cars_nb(census, cols)
+    census = complete_csp(census, cols)
+    return census, cols
 

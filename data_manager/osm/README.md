@@ -1,13 +1,15 @@
-## osm data
+## OSM
 
-On utilise les données OpenStreetMap simplement pour obtenir 
-les voies de chemin de fer au niveau communal.
+### Description
 
-Ainsi, à chaque appel de la fonction `get_railways()`, on regarde dans la BDD si 
-la donnée a déjà été enregistrée pour la commune, si oui on l'utilise, si non on
-envoie une requête à l'API Overpass pour l'obtenir.
+OSM folder contains all files to get OSM data thanks to their API Overpass (https://overpass-api.de/), process it, and store it into the database.
 
-**Il n'y a donc pas de base de données globale a enregistrée ici, elle se remplira au fur et à mesure des appels à la fonction.**
+### Structure
 
-_Ce fonctionnement a été mis en place au début du projet. Il a vocation à être remplacé
-par la donnée IGN BD TOPO ainsi que les jeux de données du train fournis par transport.data.gouv._
+- _api_request.py_ : proper Overpass API request
+
+And four main files :
+- _residential_areas.py_
+- _work_areas.py_
+- _zones.py_
+- _railways.py_

@@ -1,11 +1,11 @@
-file;emd_variable;emd_values;emd_description;diag_mob_variable;diag_mob_format;diag_mob_values;diag_mob_description
+ï»¿file;emd_variable;emd_values;emd_description;diag_mob_variable;diag_mob_format;diag_mob_values;diag_mob_description
 persons;TIRA;;;tira;string;;
 persons;PP2;;;zf;string;;
 ;;;;ra_id;string;;
 persons;ECH;;;ech;int;;
 persons;PER;;;per;int;;
 persons;P2;1;masculin;sexe;int;1;homme
-persons;P2;2;féminin;sexe;int;2;femme
+persons;P2;2;fÃ©minin;sexe;int;2;femme
 persons;JOURDEP;1;Lundi;day;int;1;Monday
 persons;JOURDEP;2;Mardi;day;int;2;Tuesday
 persons;JOURDEP;3;Mercredi;day;int;3;Wednesday
@@ -14,10 +14,10 @@ persons;JOURDEP;5;Vendredi;day;int;5;Friday
 persons;JOURDEP;6;Samedi;day;int;5;Saturday
 persons;P4;;;age;int;;
 persons;P11A;1;AGRICULTEURS ;csp;int;1;agriculteurs
-persons;P11A;2;ARTISANS, COMMERCANTS, CHEFS D'ENTREPRISE;csp;int;2;artisans, commerçants, chefs d'entreprise
-persons;P11A;3;CADRE ET PROFESSION INTELLECTUELLE SUPERIEURE;csp;int;3;cadre et profession intellectuelle supérieure
-persons;P11A;4;PROFESSION INTERMEDIAIRE;csp;int;4;profession intermédiaire
-persons;P11A;5;EMPLOYE;csp;int;5;employé
+persons;P11A;2;ARTISANS, COMMERCANTS, CHEFS D'ENTREPRISE;csp;int;2;artisans, commerÃ§ants, chefs d'entreprise
+persons;P11A;3;CADRE ET PROFESSION INTELLECTUELLE SUPERIEURE;csp;int;3;cadre et profession intellectuelle supÃ©rieure
+persons;P11A;4;PROFESSION INTERMEDIAIRE;csp;int;4;profession intermÃ©diaire
+persons;P11A;5;EMPLOYE;csp;int;5;employÃ©
 persons;P11A;6;OUVRIER;csp;int;6;ouvrier
 persons;P11A;7;ELEVE, ETUDIANT;csp;int;8;autre
 persons;P11A;8;CHOMEUR N'AYANT JAMAIS TRAVAILLE;csp;int;8;autre

@@ -12,7 +12,7 @@ def get_gridded_population(pool, geo_code, source=SOURCE_GRIDDED_POP):
     cur = conn.cursor()
     cur.execute("""SELECT idGrid200, Ind, Men, Men_pauv, Men_prop, Ind_snv, Men_surf
                 FROM insee_filosofi_gridded_pop 
-                WHERE geo_code = ? AND source = ?""", [geo_code, source])
+                WHERE geo_code = ? AND year_data = ?""", [geo_code, source])
 
     result = list(cur)
     gridded_population = pd.DataFrame(result, columns=["idGrid200", "population", "households", "poor_households",

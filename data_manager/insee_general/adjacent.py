@@ -1,3 +1,5 @@
+import pprint
+
 from data_manager.database_connection.sql_connect import mariadb_connection
 
 from data_manager.insee_general.source import SOURCE_ADJACENT
@@ -13,7 +15,7 @@ def get_adjacent(pool, geo_code, source=SOURCE_ADJACENT):
     cur = conn.cursor()
     cur.execute("""SELECT geo_code_neighbor 
                 FROM osm_adjacent 
-                WHERE geo_code = ? AND SOURCE = ?""", [geo_code, source])
+                WHERE geo_code = ? AND year_data = ?""", [geo_code, source])
     result = list(cur)
     conn.close()
 

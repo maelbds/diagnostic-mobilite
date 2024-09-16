@@ -9,7 +9,7 @@ class Header extends React.Component{
 
   render(){
     return(
-      <div className="row mb-5">
+      <div className="row mb-3">
         <div className="col">
 
             <div className="row justify-content-center" style={{backgroundColor: c_light}}>

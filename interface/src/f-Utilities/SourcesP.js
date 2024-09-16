@@ -1,33 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 class SourcesP extends React.Component {
 
   render() {
-    let sources = this.props.sources
-    let concerned = this.props.concerned
-    let new_concerned = Array.from(concerned)
-    if (concerned.includes("emd")){
-      new_concerned.push("analysis")
-    }
-    if (concerned.includes("entd")){
-      new_concerned.push("model")
-      new_concerned.push("analysis")
+    let selected_sources = this.props.selected_sources
+    if (selected_sources.length > 1){
+      selected_sources = selected_sources.filter((v, i)=> selected_sources.indexOf(v) === i)
     }
 
     function handleLink(label, link){
-      if (link != undefined & link !=""){
-        return <a href={link} target="_blank">{label}</a>
+      if (link !== undefined & link !== ""){
+        return <a href={link} key={label} target="_blank" rel="noreferrer">{label}  <span className="material-symbols-outlined link">open_in_new</span></a>
       }
       else{
         return label
       }
     }
 
-    if (concerned.length > 0){
+    if (selected_sources.length > 0){
       return(
-        <p className="sources">Source{new_concerned.length>1 && "s"} {/*this.props.processed && "(traitement)"*/} :
-          {[" "].concat(new_concerned.filter((l)=>Object.keys(this.props.sources).includes(l)).map((l)=>
-              handleLink(sources[l].label, sources[l].link)
+        <p className="sources">Source{selected_sources.length > 1 && "s"} :
+          {[" "].concat(selected_sources.map((s) =>
+              handleLink(s.label, s.link)
           ).reduce((prev, curr) => [prev, ' | ', curr]))}
         </p>
       )

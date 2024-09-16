@@ -5,7 +5,7 @@ from data_manager.database_connection.sql_connect import mariadb_connection
 from data_manager.exception import UnknownGeocodeError
 from data_manager.ign.commune_center import get_coords
 from data_manager.insee_general.districts import get_districts
-from data_manager.insee_mobpro.util_functions import distance_pt_pt
+from data_manager.osm.functions_geography import distance_pt_pt
 
 from data_manager.insee_mobpro.source import SOURCE_MOBPRO
 
@@ -155,7 +155,7 @@ if __name__ == "__main__":
         pd.set_option('display.max_columns', 50)
         pd.set_option('display.max_rows', 50)
         pd.set_option('display.width', 2000)
-        geo_codes = ['84147', '84133', '84113', '84084', '84076', '84026', '84024', '84014', '84010', '84002', '84151', '84121', '84090', '84052', '84042', '84009']
+        geo_codes =[] # ['84147', '84133', '84113', '84084', '84076', '84026', '84024', '84014', '84010', '84002', '84151', '84121', '84090', '84052', '84042', '84009']
         for g in geo_codes:
             print(g)
             flows_by_geo_code, flows_by_mode_and_geocode, flows_by_mode, flows_transport_geo_code_mode = get_flows_home_work_trans(None, g, "MOBPRO_2018")
@@ -165,7 +165,29 @@ if __name__ == "__main__":
             print(flows_by_mode)
             print(flows_transport_geo_code_mode)
 
-        print(get_flows_home_work_trans(None, "69050", "MOBPRO_2018"))
+
+        """
+        cachan_flows_geo_code, cachan_flows_transport_mode_geo_code, cachan_flows_mode, cachan_flows_transport_geo_code_mode  = get_flows_home_work_trans(None, "94016", "MOBPRO_2018")
+
+        print(cachan_flows_mode)
+        print(cachan_flows_geo_code)
+        main_geocodes = cachan_flows_geo_code.sort_values(by="flow", ascending=False).head(25).index.to_list()
+        print(main_geocodes)
+
+        from model.functions.osrm import itinerary_osrm
+
+        def calc_osrm_dist(coord1, coord2):
+            return itinerary_osrm(coord1, coord2)["distance"]
+
+        main_distances = [round(calc_osrm_dist(get_coords(None, "94016"), get_coords(None, g))/1000, 1) for g in main_geocodes]
+
+        print(main_distances)
+        print(pd.DataFrame(index=main_geocodes, data={"distance": main_distances}))
+
+        print(cachan_flows_transport_geo_code_mode.loc[main_geocodes].xs(6, level=1))
+        print(cachan_flows_transport_geo_code_mode.loc["94003"])
+        print(cachan_flows_transport_geo_code_mode.xs("94016", level=0))"""
+
         print(get_flows_home_work(None, "69050", "MOBPRO_2018"))
         print(sum([f[4] for f in get_flows_home_work(None, "69009", "MOBPRO_2018") if f[4] < 10]))
 

@@ -2,6 +2,7 @@
 
 export const c_background = "#fbf9f8";
 export const c_light = "#e7e1db";
+export const c_map_element_color = "#DACCBE";
 export const c_dark = "#252525";
 
 export const c_red_text = "#BB7963";
@@ -24,9 +25,10 @@ export const c_modes = {
   "moto": "#B98EF1",
   "autre": "#969696",
   "inconnu": c_light,
-  "autre/imprécis": c_light,
+  "imprécis": c_light,
 }
 //https://coolors.co/5b73c2-798dcd-fabb77-b98ef1-599b88-71ad9b-969696
+
 
 export const c_reasons = {
   "domicile ↔ travail": "#5D6698",
@@ -38,7 +40,7 @@ export const c_reasons = {
   "domicile ↔ visites": "#FABB77",
   "domicile ↔ affaires personnelles": "#599B88",
   "autre": "#969696",
-  "autre/imprécis": c_light,
+  "imprécis": c_light,
 }
 //https://coolors.co/5d6698-6c78a3-9ab3d5-b698dd-c49a78-e0a3a9-fabb77-599b88
 
@@ -65,7 +67,37 @@ export const c_markers = [c_yellow].concat(c_gradient_reds.slice(1)); // for pla
 export const c_categories = [c_yellow, c_orange, c_red, c_violet, c_grey_violet, c_blue, c_green, c_light]; // for plots https://coolors.co/7fa384-98bd8c-628867-9fbda5-6a9471
 export const c_zones = [c_light, c_yellow].concat(c_gradient_reds.slice(1))
 export const c_direct_indirect = [c_yellow, c_orange, c_light]
+export const c_services = [c_yellow, c_orange, c_green, c_grey_violet, c_blue, c_violet, c_red].concat(c_public_transport);
+export const c_railway_station = c_red;
 
 export const c_aac = [["F3F2F0", "#F5F0AF", "#EDE049", "#FFB520", "#EE9008", "#EE9008"],
                       ["F3F2F0", "#F6B7C2", "#F15D7D", "#E40038", "#A91535", "#A91535"]];
 // Conventionnal colours by INSEE
+
+
+
+
+
+// Palette map
+/*
+background : fbf9f8
+
+ocs vegetation #F3F2EA
+ocs vegetation canne à sucre #F6F0F2
+ocs mangrove/marais #F0F4F2
+
+mer #DBE1ED
+mer lighter #E7EAF2
+mer lighter2 #EFF0F5
+
+zone batie #F4F0E9
+
+hydro #EBEDF3
+zone d'activité #F7F2E9
+
+routes :
+fond: white
+contour : #E7E1DB
+
+
+*/

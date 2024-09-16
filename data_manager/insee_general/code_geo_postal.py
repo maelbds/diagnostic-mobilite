@@ -1,7 +1,11 @@
 import pprint
+import pandas as pd
 
 from data_manager.database_connection.sql_connect import mariadb_connection
 from data_manager.exception import UnknownGeocodeError, UnknownPostalcodeError
+from unicodedata import normalize
+from difflib import get_close_matches
+from api_diago.resources.common.db_request import db_request
 
 
 def geo_code_to_postal_code(pool, geo_code):
@@ -10,13 +14,9 @@ def geo_code_to_postal_code(pool, geo_code):
     :param geo_code: (String) INSEE geo code
     :return: (String) Postal code
     """
-    conn = mariadb_connection(pool)
-    cur = conn.cursor()
-    cur.execute("""SELECT postal_code 
+    result = db_request(pool, """SELECT postal_code 
                 FROM insee_communes 
                 WHERE geo_code = ?""", [geo_code])
-    result = list(cur)
-    conn.close()
 
     if len(result) > 0:
         result = result[0]
@@ -55,9 +55,16 @@ def convert_name(name):
     :return: (String) converted name
     """
     name = name.upper()
-    name = name.replace('-', ' ').replace('\'', ' ')
+    name = name.replace('-', ' ').replace('\'', ' ').replace("CEDEX", "").replace("  ", " ")
     name = name.replace('SAINT', 'ST')
     return name
+
+
+def convert_postal_code(postal_code):
+    if postal_code[2] == "0":
+        return postal_code[:2] + "000"
+    else:
+        return postal_code
 
 
 def postal_code_to_geo_code(pool, postal_code, name):
@@ -68,11 +75,12 @@ def postal_code_to_geo_code(pool, postal_code, name):
     :return: (String) INSEE geo_code of the commune
     """
     name = convert_name(name)
+    postal_code = convert_postal_code(postal_code)
     conn = mariadb_connection(pool)
     cur = conn.cursor()
-    cur.execute("""SELECT geo_code 
-                FROM insee_communes 
-                WHERE postal_code = ? AND name = ?""", [postal_code, name])
+    cur.execute("""SELECT CODGEO 
+                FROM la_poste_code_postal 
+                WHERE code_postal = ? AND LIBELLE = ?""", [postal_code, name])
     result = list(cur)
     conn.close()
 
@@ -82,6 +90,42 @@ def postal_code_to_geo_code(pool, postal_code, name):
         return geo_code
     else:
         raise UnknownPostalcodeError([postal_code, name])
+
+
+def postal_code_to_geo_code2(pool, postal_code, name):
+    """
+    Convert postal code & associated name to INSEE geo_code of the commune
+    :param postal_code: (String) postal code
+    :param name: (String) commune's name
+    :return: (String) INSEE geo_code of the commune
+    """
+    name = convert_name(name)
+    #postal_code = convert_postal_code(postal_code)
+    conn = mariadb_connection(pool)
+    cur = conn.cursor()
+    cur.execute("""SELECT CODGEO, arr.geo_code_city, LIBELLE
+                FROM la_poste_code_postal AS lp
+                LEFT JOIN insee_arrondissements AS arr ON lp.CODGEO = arr.geo_code_district
+                WHERE code_postal = ?""", [postal_code, name])
+    result = list(cur)
+    conn.close()
+
+    communes = pd.DataFrame(result, columns=["geo_code", "geo_code_city", "name"])
+    mask_district = ~communes["geo_code_city"].isna()
+    communes.loc[mask_district, "geo_code"] = communes.loc[mask_district, "geo_code_city"]
+
+    if len(communes)>1:
+        close_matches = get_close_matches(name, communes["name"].to_list(), 1)
+        if len(close_matches) > 0:
+            matching_commune = get_close_matches(name, communes["name"].to_list(), 1)[0]
+            return communes[communes["name"] == matching_commune]["geo_code"].iloc[0]
+        else:
+            return None
+
+    elif len(communes)==1:
+        return communes["geo_code"].iloc[0]
+    else:
+        return None
 
 
 def name_to_geo_code(pool, name, department_codes):
@@ -130,8 +174,10 @@ if __name__ == "__main__":
     except UnknownGeocodeError as e:
         print(e.message)
     try:
-        pprint.pprint(postal_code_to_geo_code(None, 79400, "saint maixent l'école"))
+        print(postal_code_to_geo_code2(None, "79400", "saint maixent l'école"))
     except UnknownPostalcodeError as e:
         print(e.message)
+
+    print(postal_code_to_geo_code2(None, "69002", "lyon"))
 
 

@@ -3,23 +3,7 @@ import polyline
 
 from data_manager.database_connection.sql_connect import mariadb_connection
 from data_manager.osm.api_request import api_osm_request_train
-
-
-def process_osm_data_way(json):
-    """
-    :param json: json response from api
-    :return: (List) with processed data
-    """
-    ways = []
-    for e in json:
-        lat = []
-        lon = []
-        for p in e["geometry"]:
-            lat.append(p["lat"])
-            lon.append(p["lon"])
-        ways.append([lat, lon])
-
-    return ways
+from data_manager.osm.functions_format import process_osm_data_way
 
 
 def get_railways_api(geo_code):

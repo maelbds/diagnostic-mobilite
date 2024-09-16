@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import * as colors from './Colors';
 import * as layout from './Layout';
-import LegendPlace from '../b-LeafletMap/Legend/LegendPlace';
 
 class TerritoryProfile extends React.Component {
   render() {
@@ -82,13 +81,9 @@ class TerritoryProfile extends React.Component {
 
               <div className="col-2">
                 <p>Marqueurs (lieux, pôles) :</p>
-                <LegendPlace label="" color={colors.c_markers[0]} size={layout.p_size_1 *2}/>
                 <p className="mb-3">{colors.c_markers[0]}</p>
-                <LegendPlace label="" color={colors.c_markers[1]} size={layout.p_size_2 * 2}/>
                 <p className="mb-3">{colors.c_markers[1]}</p>
-                <LegendPlace label="" color={colors.c_markers[2]} size={layout.p_size_3 * 2}/>
                 <p className="mb-3">{colors.c_markers[2]}</p>
-                <LegendPlace label="" color={colors.c_markers[3]} size={layout.p_size_4 * 2}/>
                 <p className="mb-3">{colors.c_markers[3]}</p>
               </div>
 

@@ -373,7 +373,7 @@ class SelectionMap extends React.Component {
                           <div className="col">
                             <p><b>EPCIs</b></p>
                           </div>
-                        </div>*/}
+                        </div>
 
                         <div className="row no-gutters align-items-center">
                           <div className="col-auto mr-3">
@@ -382,7 +382,7 @@ class SelectionMap extends React.Component {
                           <div className="col">
                             <p><b>Territoires avec une enquête déplacement (EMD, EDGT, EMC²) disponible</b></p>
                           </div>
-                        </div>
+                        </div>*/}
 
                     </div>
 
@@ -425,7 +425,7 @@ class SelectionMap extends React.Component {
 
       <div className="row">
         <div className="col-5">
-          <SourcesP sources={this.props.sources} concerned={["map", "epci", "aav"]} />
+          {/*<SourcesP sources={this.props.sources} concerned={["map", "epci", "aav"]} />*/}
         </div>
       </div>
 

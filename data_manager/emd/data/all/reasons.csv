@@ -1,0 +1,13 @@
+id;name_fr;id_main_reason
+0;domicile;10
+1;travail habituel;1
+2;travail inhabituel;1
+3;école primaire, collège;2
+4;lycée, université;2
+5;grande surface;3
+6;autre commerce;3
+7;accompagnement;7
+8;loisirs;5
+9;visites;6
+10;affaires personnelles;4
+11;autre motif;8

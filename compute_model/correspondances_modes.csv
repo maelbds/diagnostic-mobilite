@@ -1,0 +1,46 @@
+﻿id_emp;name_emp;mode_analyse_mael
+1;Piéton;à pied
+1.1;Uniquement marche à pied;à pied
+1.2;Porté, transporté en poussette;autre
+1.3;Rollers, trottinette;autre
+1.4;Fauteuil roulant (y compris motorisé);autre
+2;Deux roues;vélo
+2.1;Bicyclette, tricycle (y compris à assistance électrique) sauf vélo en libre-service;vélo
+2.2;Vélo en libre-service;vélo
+2.3;Cyclomoteur (2 roues de moins de 50 cm3) – Conducteur;moto
+2.4;Cyclomoteur (2 roues de moins de 50 cm3) – Passager;moto
+2.5;Moto (plus de 50 cm3) – Conducteur (y compris avec side-car et scooter à trois roues);moto
+2.6;Moto (plus de 50 cm3) – Passager (y compris avec side-car et scooter à trois roues);moto
+2.7;Motocycles sans précision (y compris quads);moto
+3;Automobile;voiture
+3.1;Voiture, VUL, voiturette… – Conducteur;voiture
+3.2;Voiture, VUL, voiturette… – Passager;voiture passager
+3.3;Voiture, VUL, voiturette… – Tantôt conducteur tantôt passager;voiture
+3.4;Trois ou quatre roues sans précision;voiture
+4;Transport spécialisé, scolaire, taxi;transport en commun
+4.1;Taxi (individuel, collectif), VTC;autre
+4.2;Transport spécialisé (handicapé);autre
+4.3;Ramassage organisé par l'employeur;transport en commun
+4.4;Ramassage scolaire;transport en commun
+5;Transport en commun urbain ou régional, autocar;transport en commun
+5.1;Autobus urbain, trolleybus;transport en commun
+5.10;Autres transports urbains et régionaux (sans précision);transport en commun
+5.2;Navette fluviale;autre
+5.3;Autocar de ligne (sauf SNCF);transport en commun
+5.4;Autre autocar (affrètement, service spécialisé);transport en commun
+5.5;Autocar TER;transport en commun
+5.6;Tramway;transport en commun
+5.7;Métro, VAL, funiculaire;transport en commun
+5.8;RER, SNCF banlieue;transport en commun
+5.9;TER;transport en commun
+6;Train grande ligne ou Train à grande vitesse;transport en commun
+6.1;Train à grande vitesse, 1ère classe (TGV, Eurostar, etc.);transport en commun
+6.2;Train à grande vitesse, 2ème classe (TGV, Eurostar, etc.);transport en commun
+6.3;Autre train, 1ère classe;transport en commun
+6.4;Autre train, 2ème classe;transport en commun
+6.5;Train, sans précision;transport en commun
+7.1;Avion, classe première ou affaires;autre
+7.2;Avion, classe premium économique;autre
+7.3;Avion, classe économique;autre
+8.1;Bateau;autre
+9.1;Autre;autre

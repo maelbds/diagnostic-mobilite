@@ -9,7 +9,7 @@ class Sections extends React.Component{
 
   render(){
     return(
-      <div className="row mt-5 mb-3">
+      <div className="row mt-5 mb-4">
         <div className="col">
                 <div className="row">
                   {this.props.dev_mode && <div className="col-auto">
@@ -26,7 +26,7 @@ class Sections extends React.Component{
                   </div>
                   <div className="col-auto">
                     <h2 onClick={this.props.setSection.bind(this, "mobility")}
-                        className={this.props.selectedSection == "mobility" ? "mb-0 pb-1 nav selected" : "mb-0 pb-1 nav"}>pratiques de déplacement</h2>
+                        className={this.props.selectedSection == "mobility" ? "mb-0 pb-1 nav selected" : "mb-0 pb-1 nav"}>pratiques de déplacement  <span class="material-symbols-outlined new ml-1">fiber_new</span></h2>
               </div>
             </div>
 

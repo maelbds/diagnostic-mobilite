@@ -1,86 +1,178 @@
 import React from 'react';
+import * as d3 from "d3";
 
-import {c_modes} from '../a-Graphic/Colors';
-import PlotBarStacked from '../c-PlotlyFigures/PlotBarStacked'
+import LoadingChart from '../f-Utilities/LoadingChart';
+import SourcesRow from '../f-Utilities/SourcesRow';
+import DownloadButtonLight from '../f-Utilities/DownloadButtonLight';
 
-import {formatFigure} from '../f-Utilities/util_func';
+import {api_call} from '../0-Home/api';
+import {formatFigure, downloadCSV, downloadSVGImage} from '../f-Utilities/util_func';
+import {c_modes, c_light} from '../a-Graphic/Colors';
+import {mirrorVerticalStackedBarChart} from '../j-Charts/verticalStackedBarChart';
+import {downloadMapImage} from '../i-Map/utilities';
+import {data_loading_nb, data_loading_dist, data_loading_dist_class, data_loading_dist_class_dict, modes_orders} from './data_loading';
+import {data_source_types} from '../f-Utilities/data_source';
+
 
 class Modes extends React.Component {
-  render(){
+  constructor(props){
+    super(props)
 
-    function sort_modes(modes){
-      let modes_order = {
-        "voiture" : 6,
-        "voiture passager": 5,
-        "transport en commun": 4,
-        "à pied": 3,
-        "moto": 1,
-        "vélo": 2,
-        "autre": 0
-      };
-      function comparison(mean1, mean2){
-        return modes_order[mean2[0]] - modes_order[mean1[0]]
+    this.init_data = {
+      "modes": {
+        "number": data_loading_nb,
+        "distance": data_loading_dist,
+      },
+      "sources": []
+    }
+
+    this.state = {
+      id: "modes_chart",
+      name_file: "parts_modales",
+      status: "loading",
+      data: this.init_data,
+    }
+  }
+
+  createChart = () => {
+    let modes = this.state.data.modes
+    let modes_nb = modes.number
+    let modes_dist = modes.distance
+
+    let getProp_nb = (d) => modes_nb[d]/Object.values(modes_nb).reduce((a, b) => a + b, 0) * 100
+    let getProp_dist = (d) => modes_dist[d]/Object.values(modes_dist).reduce((a, b) => a + b, 0) * 100
+
+    let getPropLabel_nb = (d) => this.state.status === "loading" ? "--" : Math.round(getProp_nb(d))
+    let getPropLabel_dist = (d) => this.state.status === "loading" ? "--" : Math.round(getProp_dist(d))
+
+    let getLegendLabel = (d) => d
+
+    let getHoverLabel_nb = (d) => `${Math.round(getProp_nb(d) * 10)/10}% ${getLegendLabel(d)} soit ${formatFigure(modes_nb[d])} déplacements/jour`
+    let getHoverLabel_dist = (d) => `${Math.round(getProp_dist(d) * 10)/10}% ${getLegendLabel(d)} soit ${formatFigure(modes_dist[d])} km/jour`
+
+    let getOrder = (a, b) => modes_orders[b] - modes_orders[a]
+    let getColor = (d) => this.state.status === "loading" ? c_light : c_modes[d]
+
+    mirrorVerticalStackedBarChart({
+      id: this.state.id,
+      data1: modes_nb,
+      data2: modes_dist,
+      legend1: "Répartition modale en nombre de déplacements",
+      legend2: "Répartition modale en km parcourus (passagers.km)",
+      getColor: getColor,
+      getPropLabel1: getPropLabel_nb,
+      getPropLabel2: getPropLabel_dist,
+      getLegendLabel1: getLegendLabel,
+      getLegendLabel2: getLegendLabel,
+      getHoverLabel1: getHoverLabel_nb,
+      getHoverLabel2: getHoverLabel_dist,
+      getOrder: getOrder,
+    })
+  }
+
+  createTable = () => {
+    let headlines = ["mode", "part en nombre (%)", "déplacements", "part en distance (%)", "passagers.km"]
+
+    let modes = this.state.data.modes
+    let keys = Object.keys(modes.number)
+
+    let total_nb = Object.values(modes.number).reduce((a, b) => a+b, 0)
+    let total_dist = Object.values(modes.distance).reduce((a, b) => a+b, 0)
+
+    let rows = keys.map((k) => [
+      k,
+      Math.round(modes.number[k]/total_nb * 1000)/10,
+      modes.number[k],
+      Math.round(modes.distance[k]/total_dist * 1000)/10,
+      modes.distance[k],
+    ])
+
+    let format_csv = [(f)=>f, (f)=>formatFigure(f), (f)=>f, (f)=>formatFigure(f), (f)=>f]
+
+    this.setState({
+      headlines: headlines,
+      rows: rows,
+      format_csv: format_csv,
+    })
+  }
+
+  componentDidMount(){
+    let endpoints = ["mobility/modes"]
+    api_call.call(this, endpoints)
+
+    this.createChart()
+    this.createTable()
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(prevState.data !== this.state.data){
+      if (this.state.data.modes === null){
+        this.setState(this.init_data)
+      } else {
+        this.createChart()
+        this.createTable()
       }
-      return modes.sort(comparison)
     }
+  }
 
-    function label_text(modes){
-      var total = modes.map((m)=>m[1]).reduce((a,b) => a + b);
-      var text = modes.map(
-                    (m) => "<span style='font-size: 1.5vw;'>" +formatFigure(m[1]/total*100, 2) +
-                                      " %</span></br></br><span style='font-weight: 300;'>" + m[0] + "</span>"
-                  );
-      return text
+  render(){
+    let origin = this.state.data.sources.length > 0 ? (this.state.data.sources.map((s) => s.label).includes("Enquête Mobilité des personnes (SDES 2019)") ? "model" : "emd") : null
+
+    if (this.state.status === "error") {
+      return (
+        <p>Erreur...</p>
+      )
     }
+    else{
+      return(
+        <div className="row">
+          <div className="col-12">
 
-    function colors(modes){
-      return modes.map((m)=> c_modes[m[0]])
-    }
-
-
-    let territory = this.props.territory;
-    let modes_number = territory.travels_analysis["1_key_figures"].modes.number
-    modes_number = Object.keys(modes_number).map((key)=>[key, modes_number[key]])
-    modes_number = sort_modes(modes_number)
-
-    let modes_distance = territory.travels_analysis["1_key_figures"].modes.distance
-    modes_distance = Object.keys(modes_distance).map((key)=>[key, modes_distance[key]])
-    modes_distance = sort_modes(modes_distance)
-
-
-    return(
-      <div className="row">
-        <div className="col">
-
-          <div className="row">
-            <div className="col-auto">
-              <h3 className="mb-0">modes</h3>
+            <div className="row">
+              <div className="col-12">
+                <h3 className="mb-4">modes
+                  {origin !== null && <span className={"ml-1 material-symbols-outlined " + origin} title={data_source_types[origin]}>verified</span>}
+                </h3>
+              </div>
             </div>
+
+            <div className="row">
+              <div className="col-12">
+                <div className="row">
+                  <div className="col-12">
+                    <div id={this.state.id}></div>
+                  </div>
+                </div>
+
+                {this.state.status === "loading" && <LoadingChart />}
+              </div>
+            </div>
+
+            {this.state.status === "loaded" &&
+            <div className="row justify-content-between align-items-start mt-3 mb-2">
+              <div className="col-5">
+                <p className="sources"><i>Note : les pourcentages sont arrondis ainsi la somme n'est pas toujours égale à 100%.</i></p>
+              </div>
+
+              <div className="col-7 mt-1">
+              <div className="row justify-content-end">
+
+              <DownloadButtonLight onClick={downloadSVGImage.bind(this, d3.select(`#${this.state.id} svg`).node(), this.state.name_file)}
+                                   title="Télécharger le graphique au format PNG (image)"
+                                   label="graphique / .png"/>
+              <DownloadButtonLight onClick={downloadCSV.bind(this, this.state.headlines, this.state.rows, this.state.format_csv, this.state.name_file)}
+                                   title="Télécharger les données au format CSV (tableau)"
+                                   label="tableau / .csv"/>
+                                   </div>
+               </div>
+            </div>}
+
+            <SourcesRow selected_sources={this.state.data.sources}/>
+
           </div>
-
-          <div className="row">
-            <div className="col-6">
-              <PlotBarStacked values={modes_number.map((m)=>m[1])}
-                       labels={label_text(modes_number)}
-                       id="all_travels_modes_number"
-                       colors={colors(modes_number)}
-                       height="450"/>
-              <p className="text-center mt-3">Répartition modale en nombre de déplacements</p>
-            </div>
-            <div className="col-6">
-              <PlotBarStacked values={modes_distance.map((m)=>m[1])}
-                       labels={label_text(modes_distance)}
-                       id="all_travels_modes_distance"
-                       colors={colors(modes_distance)}
-                       height="450"/>
-              <p className="text-center mt-3">Répartition modale en km parcourus</p>
-            </div>
-          </div>
-
         </div>
-      </div>
-
-  );
+      );
+    }
   }
 }
 

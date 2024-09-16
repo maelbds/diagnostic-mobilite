@@ -1,7 +1,28 @@
+import os
+
 import pandas as pd
 import numpy as np
+from datetime import date
 
-from data_manager.database_connection.sql_connect import mariadb_connection
+from data_manager.db_functions import create_new_table, empty_table, load_table
+from data_manager.utilities import download_url
+
+
+def download_files():
+    # reference : "https://transport.data.gouv.fr/datasets/base-nationale-des-lieux-de-covoiturage"
+
+    name = "Base nationale consolidée des lieux de covoiturage"
+    url = "https://www.data.gouv.fr/fr/datasets/r/4fd78dee-e122-4c0d-8bf6-ff55d79f3af1"
+    dir = "data/bnlc"
+    file_name = "bnlc.csv"
+
+    file_path = f"{dir}/{file_name}"
+
+    if not os.path.isfile(file_path):
+        print(f"{name} - downloading")
+        download_url(url, file_path)
+    else:
+        print(f"{name} - already downloaded")
 
 
 def get_bnlc_from_csv():
@@ -14,32 +35,47 @@ def get_bnlc_from_csv():
             "proprio",
             "date_maj"]
     data = pd.read_csv(
-        "data/bnlc/bnlc-20230216.csv",
+        "data/bnlc/bnlc.csv",
         sep=",", dtype=str,
         usecols=cols)
 
-    print(data)
+    data["saved_on"] = date.today()
+    data["id"] = data.index.values
+    data = data.replace({np.nan: None})
+
     return data
 
 
-def save_data_from_csv_to_db(data, source):
-    """
-    Read data from csv file & add it to the database
-    :return:
-    """
-    conn = mariadb_connection()
-    cur = conn.cursor()
+def load_bnlc(pool):
+    table_name = "transportdatagouv_bnlc"
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
 
-    cols_name = "(" + ", ".join([col for col in data.columns]) + ", source)"
-    values_name = "(" + ", ".join(["?" for col in data.columns]) + ", ?)"
+    download_files()
+    data = get_bnlc_from_csv()
 
-    def request(cur, cols):
-        cur.execute("""INSERT INTO transportdatagouv_bnlc """ + cols_name + """ VALUES """ + values_name, cols)
+    cols_table = {
+        "id": "INT(11) NOT NULL",
+        "id_lieu": "VARCHAR(50) NOT NULL",
+        "nom_lieu": "VARCHAR(200) NULL DEFAULT NULL",
+        "type": "VARCHAR(50) NULL DEFAULT NULL",
+        "insee": "VARCHAR(11) NULL DEFAULT NULL",
+        "Ylat": "FLOAT NULL DEFAULT NULL",
+        "Xlong": "FLOAT NULL DEFAULT NULL",
+        "nbre_pl": "INT(11) NULL DEFAULT NULL",
+        "nbre_pmr": "INT(11) NULL DEFAULT NULL",
+        "proprio": "VARCHAR(100) NULL DEFAULT NULL",
+        "date_maj": "DATE NULL DEFAULT NULL",
 
-    [request(cur, list(row.values)+[source]) for index, row in data.iterrows()]
+        "saved_on": "DATE NULL DEFAULT NULL",
+    }
+    keys = "PRIMARY KEY (id) USING BTREE, KEY (insee) USING BTREE"
 
-    conn.commit()
-    conn.close()
+    create_new_table(pool, table_name, cols_table, keys)
+    empty_table(pool, table_name)
+    load_table(pool, table_name, data, cols_table)
+
+    os.remove("data/bnlc/bnlc.csv")
 
 
 # ---------------------------------------------------------------------------------
@@ -49,11 +85,7 @@ if __name__ == "__main__":
     pd.set_option('display.max_rows', 50)
     pd.set_option('display.width', 2000)
 
-    bnlc = get_bnlc_from_csv()
-
     # to prevent from unuseful loading data
     security = True
     if not security:
-        bnlc = bnlc.replace({np.nan: None})
-        print(bnlc)
-        save_data_from_csv_to_db(bnlc, "BNLC_20230216")
+        load_bnlc(None)

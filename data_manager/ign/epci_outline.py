@@ -12,9 +12,9 @@ from data_manager.ign.source import SOURCE_OUTLINE
 def get_epci_outline(epci_siren):
     conn = mariadb_connection()
     cur = conn.cursor()
-    cur.execute("""SELECT outline_light  
+    cur.execute("""SELECT outline  
                 FROM ign_epci_outline 
-                WHERE (epci_siren = ? AND source = ?)""", [epci_siren, SOURCE_OUTLINE])
+                WHERE (epci_siren = ? AND year_data = ?)""", [epci_siren, SOURCE_OUTLINE])
     result = list(cur)
     conn.close()
 

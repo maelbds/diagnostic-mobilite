@@ -1,0 +1,34 @@
+﻿id_emp;name_emp
+1.1;Retour au domicile
+1.2;Retour à la résidence occasionnelle
+1.3;Retour au domicile de parents (hors ménage) ou d’amis
+1.4;Étudier (école, lycée, université)
+1.5;Faire garder un enfant en bas âge (nourrice, crèche, famille)
+2.1;Se rendre dans une grande surface ou un centre commercial (y compris boutiques et services)
+2.2;Se rendre dans un centre de proximité, petit commerce, supérette, boutique, services (banque, cordonnier...) commercial) (hors centre commercial)
+3.1;Soins médicaux ou personnels (médecin, coiffeur…)
+4.1;Démarche administrative, recherche d’informations
+4.12;Déchetterie
+5.1;Visite à la famille
+5.2;Visite à des amis
+6.1;Accompagner quelqu’un à la gare, à l’aéroport, à une station de métro, de bus, de car
+6.2;Accompagner quelqu’un à un autre endroit
+6.3;Aller chercher quelqu’un à la gare, à l’aéroport, à une station de métro, de bus, de car
+6.4;Aller chercher quelqu’un à un autre endroit
+7.1;Activité associative, cérémonie religieuse, réunion
+7.2;Aller dans un centre de loisir, parc d’attraction, foire
+7.3;Manger ou boire à l’extérieur du domicile
+7.4;Visiter un monument ou un site historique
+7.5;Voir un spectacle culturel ou sportif (cinéma, théâtre, concert, cirque, match), assister à une conférence
+7.6;Faire du sport
+7.7;Se promener sans destination précise
+7.8;Se rendre sur un lieu de promenade
+8.1;Vacances hors résidence secondaire
+8.2;Se rendre dans une résidence secondaire
+8.3;Se rendre dans une résidence occasionnelle
+8.4;Autres motifs personnels
+9.1;Travailler dans son lieu fixe et habituel
+9.2;Travailler en dehors d’un lieu fixe et habituel, sauf tournée (chantier, contacts professionnels, réunions, visite à des clients ou fournisseurs, repas d’affaires, etc.)
+9.3;Stages, conférence, congrès, formations, exposition
+9.4;Tournées professionnelles (VRP) ou visites de patients
+9.5;Autres motifs professionnels

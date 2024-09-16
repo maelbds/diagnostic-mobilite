@@ -1,61 +1,89 @@
 import json
+import os
+
 import pandas as pd
 import numpy as np
+from datetime import date
 
 from shapely.geometry import shape, GeometryCollection
 from shapely import wkb
 
-from data_manager.database_connection.sql_connect import mariadb_connection
+from data_manager.db_functions import create_new_table, empty_table, load_table
+from data_manager.utilities import download_url
 
 
-def read_geojson():
-    with open("data/amenagements-cyclables/france-20230201.geojson", encoding="UTF-8") as data:
+def download_files():
+    # reference : "https://transport.data.gouv.fr/datasets/amenagements-cyclables-france-metropolitaine"
+
+    name = "Base Nationale des Aménagements Cyclables"
+    url = "https://www.data.gouv.fr/fr/datasets/r/95239ec5-ede2-451b-b5e2-5fe147909bac"
+    dir = "data/cycle_paths"
+    file_name = "cycle_paths.geojson"
+
+    file_path = f"{dir}/{file_name}"
+
+    if not os.path.isfile(file_path):
+        print(f"{name} - downloading")
+        download_url(url, file_path)
+    else:
+        print(f"{name} - already downloaded")
+
+
+def load_data():
+    with open("data/cycle_paths/cycle_paths.geojson", encoding="UTF-8") as data:
         geo = json.load(data)
-    return geo
 
-def get_cycle_paths_from_geojson(geo, batch_i):
     # geometry to wkb
     def geojson_to_wkb_geometry_collection(geojson):
         geom_coll = GeometryCollection([shape(geojson["geometry"])])
         geom_wkb = wkb.dumps(geom_coll)
         return geom_wkb
 
-    def handle_feature(geojson_feature):
-        properties = geojson_feature["properties"]
-        properties["geometry"] = geojson_to_wkb_geometry_collection(geojson_feature)
-        properties_df = pd.DataFrame(properties, index=[0])
-        return properties_df
-
-    features_df = [handle_feature(g) for g in geo["features"][batch_i*10000:(batch_i+1)*10000]]
-    cycle_paths = pd.concat(features_df, ignore_index=True)
-
+    data = pd.DataFrame([g["properties"] for g in geo["features"]])
     # variables https://schema.data.gouv.fr/schemas/etalab/schema-amenagements-cyclables/0.3.3/schema_amenagements_cyclables.json
-    cycle_paths = cycle_paths[["id_local", "id_osm", "code_com_d", "code_com_g", "ame_d", "ame_g",
-                               "sens_g", "sens_d", "trafic_vit", "date_maj", "geometry"]]
+    data = data[["id_local", "id_osm", "code_com_d", "code_com_g", "ame_d", "ame_g",
+                               "sens_g", "sens_d", "trafic_vit", "date_maj"]]
 
-    cycle_paths = cycle_paths.replace({np.nan: None})
-    return cycle_paths
+    data["geometry"] = [geojson_to_wkb_geometry_collection(g) for g in geo["features"]]
+
+    data = data.replace({np.nan: None})
+    data["saved_on"] = date.today()
+    data["id"] = data.index.values
+
+    return data
 
 
-def save_data_to_db(data, source):
-    """
-    Read data from csv file & add it to the database
-    :return:
-    """
-    conn = mariadb_connection()
-    cur = conn.cursor()
+def load_cycle_paths(pool):
+    table_name = "transportdatagouv_cycle_paths"
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
 
-    cols_name = "(" + ", ".join([col for col in data.columns]) + ", SOURCE)"
-    values_name = "(" + ", ".join(["?" for col in data.columns]) + "," + source + ")"
+    download_files()
+    data = load_data()
 
-    def request(cur, cols):
-        cur.execute("""INSERT INTO transportdatagouv_cycle_paths """ + cols_name + """ VALUES """ + values_name, cols)
+    cols_table = {
+        "id": "INT(11) NOT NULL",
+        "id_local": "VARCHAR(50) NOT NULL",
+        "id_osm": "VARCHAR(50) NOT NULL",
+        "code_com_d": "VARCHAR(11) NULL DEFAULT NULL",
+        "code_com_g": "VARCHAR(11) NULL DEFAULT NULL",
+        "ame_d": "VARCHAR(50) NULL DEFAULT NULL",
+        "ame_g": "VARCHAR(50) NULL DEFAULT NULL",
+        "sens_d": "VARCHAR(50) NULL DEFAULT NULL",
+        "sens_g": "VARCHAR(50) NULL DEFAULT NULL",
+        "trafic_vit": "INT(11) NULL DEFAULT NULL",
+        "geometry": "GEOMETRYCOLLECTION NULL DEFAULT NULL",
+        "date_maj": "DATE NULL DEFAULT NULL",
 
-    [request(cur, list(row.values)) for index, row in data.iterrows()]
+        "saved_on": "DATE NULL DEFAULT NULL",
+    }
+    keys = "PRIMARY KEY (id) USING BTREE, KEY (code_com_d, code_com_g) USING BTREE"
 
-    conn.commit()
-    conn.close()
-    print("done")
+    create_new_table(pool, table_name, cols_table, keys)
+    empty_table(pool, table_name)
+    load_table(pool, table_name, data, cols_table)
+
+    os.remove("data/cycle_paths/cycle_paths.geojson")
 
 
 if __name__ == '__main__':
@@ -64,12 +92,6 @@ if __name__ == '__main__':
     pd.set_option('display.width', 4000)
 
     security = True
-    if security:
-        geo = read_geojson()
-        source = "TO_COMPLETE" #OSM_20230201
-        for i in range(100000):
-            print(f"BATCH {i}")
-            cycle_paths = get_cycle_paths_from_geojson(geo, i)
-            print(cycle_paths)
-            save_data_to_db(cycle_paths, source)
+    if not security:
+        load_cycle_paths(None)
 

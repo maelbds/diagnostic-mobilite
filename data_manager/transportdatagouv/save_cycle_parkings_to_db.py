@@ -1,32 +1,40 @@
 import json
+import os
+
 import pandas as pd
 import numpy as np
 
 from shapely.geometry import shape, GeometryCollection
 from shapely import wkb
+from datetime import date
 
-from data_manager.database_connection.sql_connect import mariadb_connection
+from data_manager.db_functions import load_database, empty_table, create_new_table, load_table
+from data_manager.utilities import load_file
 
 
-def read_geojson():
-    with open("data/amenagements-cyclables/bicycle_parking_geojson/data.geojson", encoding="UTF-8") as data:
+def download_files():
+    # reference : "https://transport.data.gouv.fr/datasets/stationnements-cyclables-issus-dopenstreetmap#dataset-resources"
+
+    files = [{
+        "name": "Base nationale du stationnement cyclable",
+        "url": "https://geodatamine.fr/dump/bicycle_parking_geojson.zip",
+        "dir": "data/cycle_parkings",
+        "zip_name": "bicycle_parking_geojson.zip",
+        "file_name": "data.geojson",
+    }]
+
+    [load_file(f["name"], f["url"], f["dir"], f["zip_name"], f["file_name"]) for f in files]
+
+
+def get_cycle_parkings():
+    with open("data/cycle_parkings/data.geojson", encoding="UTF-8") as data:
         geo = json.load(data)
-    return geo
-
-
-def get_cycle_parkings_from_geojson(geo):
-    # geometry to wkb
-    def geojson_to_wkb_geometry_collection(geojson):
-        geom_coll = GeometryCollection([shape(geojson["geometry"])])
-        geom_wkb = wkb.dumps(geom_coll)
-        return geom_wkb
 
     def handle_feature(geojson_feature):
         properties = geojson_feature["properties"]
         properties["lat"] = properties["coordonneesxy"][1]
         properties["lon"] = properties["coordonneesxy"][0]
         properties.pop("coordonneesxy")
-        #properties["geometry"] = geojson_to_wkb_geometry_collection(geojson_feature)
         properties_df = pd.DataFrame(properties, index=[0])
         return properties_df
 
@@ -34,34 +42,47 @@ def get_cycle_parkings_from_geojson(geo):
     cycle_parkings = pd.concat(features_df, ignore_index=True)
     cycle_parkings["capacite"] = pd.to_numeric(cycle_parkings["capacite"], errors="coerce", downcast="integer")
 
-    print(cycle_parkings)
     # variables https://schema.data.gouv.fr/schemas/etalab/schema-amenagements-cyclables/0.3.3/schema_amenagements_cyclables.json
     cycle_parkings = cycle_parkings[["id_local", "id_osm", "code_com", "lon", "lat",
                                      "capacite", "acces", "gestionnaire", "date_maj"]]
 
     cycle_parkings = cycle_parkings.replace({np.nan: None})
+    cycle_parkings["saved_on"] = date.today()
+    cycle_parkings["id"] = cycle_parkings.index.values
+
     return cycle_parkings
 
 
-def save_data_to_db(data, source):
-    """
-    Read data from csv file & add it to the database
-    :return:
-    """
-    conn = mariadb_connection()
-    cur = conn.cursor()
+def load_cycle_parkings(pool):
+    table_name = "transportdatagouv_cycle_parkings"
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
 
-    cols_name = "(" + ", ".join([col for col in data.columns]) + ", source)"
-    values_name = "(" + ", ".join(["?" for col in data.columns]) + ", ?)"
+    download_files()
 
-    def request(cur, cols):
-        cur.execute("""INSERT INTO transportdatagouv_cycle_parkings """ + cols_name + """ VALUES """ + values_name, cols)
+    data = get_cycle_parkings()
 
-    [request(cur, list(row.values) + [source]) for index, row in data.iterrows()]
+    cols_table = {
+        "id": "INT(11) NOT NULL",
+        "id_local": "VARCHAR(50) NOT NULL",
+        "id_osm": "VARCHAR(50) NOT NULL",
+        "code_com": "VARCHAR(11) NULL DEFAULT NULL",
+        "lat": "FLOAT NULL DEFAULT NULL",
+        "lon": "FLOAT NULL DEFAULT NULL",
+        "capacite": "INT(11) NULL DEFAULT NULL",
+        "acces": "VARCHAR(50) NULL DEFAULT NULL",
+        "gestionnaire": "VARCHAR(200) NULL DEFAULT NULL",
+        "date_maj": "DATE NULL DEFAULT NULL",
 
-    conn.commit()
-    conn.close()
-    print("done")
+        "saved_on": "DATE NULL DEFAULT NULL",
+    }
+    keys = "PRIMARY KEY (id) USING BTREE, KEY (code_com) USING BTREE"
+
+    create_new_table(pool, table_name, cols_table, keys)
+    empty_table(pool, table_name)
+    load_table(pool, table_name, data, cols_table)
+
+    os.remove("data/cycle_parkings/data.geojson")
 
 
 if __name__ == '__main__':
@@ -69,13 +90,8 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', 50)
     pd.set_option('display.width', 4000)
 
-    geo = read_geojson()
-    print(geo["features"][0])
-    cycle_paths = get_cycle_parkings_from_geojson(geo)
-    print(cycle_paths)
 
     security = True
     if not security:
-        source = "OSM_20230213" #OSM_20230201
-        save_data_to_db(cycle_paths, source)
+        load_cycle_parkings(None)
 

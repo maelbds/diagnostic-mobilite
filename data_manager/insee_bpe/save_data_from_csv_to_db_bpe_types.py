@@ -1,43 +1,42 @@
-import pandas as pd
+import os
 
-from data_manager.database_connection.sql_connect import mariadb_connection
+import pandas as pd
+import numpy as np
+
+from data_manager.db_functions import create_new_table, empty_table, load_table
 
 
 def get_bpe_types_from_csv():
-    bpe_type_cols = ["CODE", "DESCRIPTION", "CATEGORIE", "DAILY_VISITORS", "TO_KEEP"]
     bpe_type = pd.read_csv(
-        "/data_manager/insee_bpe/data/2020/types_categories.csv",
-        sep=";", dtype=str,
-        usecols=bpe_type_cols)
-    bpe_type = bpe_type.astype({"CATEGORIE": "int32", "DAILY_VISITORS": "int32"})
+        "data/types_categories.csv",
+        sep=";", dtype=str)
 
-    print(bpe_type)
+    bpe_type = bpe_type.replace({"N/A": None, np.nan: None})
+
     return bpe_type
 
 
-def save_bpe_types_data_from_csv_to_db(bpe):
-    """
-    Read data from csv file & add it to the database
-    :return:
-    """
-    conn = mariadb_connection()
-    cur = conn.cursor()
+def load_bpe_types(pool):
+    table_name = "insee_bpe_types"
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    os.chdir(dir_path)
 
-    def request(cur, cols):
-        cur.execute("""INSERT INTO insee_bpe_types 
-                                        (id_type,
-                                        name,
-                                        id_category,
-                                        daily_visitors,
-                                        to_keep
-                                         ) VALUES (?,?,?,?, ?)""", cols)
+    data = get_bpe_types_from_csv()
 
-    [request(cur, [id_type, name, id_category, daily_visitors, to_keep])
-     for id_type, name, id_category, daily_visitors, to_keep in
-     zip(bpe["CODE"], bpe["DESCRIPTION"], bpe["CATEGORIE"], bpe["DAILY_VISITORS"], bpe["TO_KEEP"])]
+    cols_table = {
+        "id": "VARCHAR(50) NOT NULL",
+        "name": "VARCHAR(255) NULL DEFAULT NULL",
+        "id_type": "INT(11) NULL DEFAULT NULL",
+        "id_category": "INT(11) NULL DEFAULT NULL",
+        "daily_visitors": "INT(11) NULL DEFAULT NULL",
+        "to_keep": "INT(11) NULL DEFAULT 0",
+        "characteristic": "INT(11) NULL DEFAULT 0",
+    }
+    keys = "PRIMARY KEY (id) USING BTREE"
 
-    conn.commit()
-    conn.close()
+    create_new_table(pool, table_name, cols_table, keys)
+    empty_table(pool, table_name)
+    load_table(pool, table_name, data, cols_table)
 
 
 # ---------------------------------------------------------------------------------
@@ -48,9 +47,8 @@ if __name__ == "__main__":
     pd.set_option('display.width', 2000)
 
     # to prevent from unuseful loading data
-    security = True
+    security = False
     if not security:
-        bpe_types = get_bpe_types_from_csv()
-        save_bpe_types_data_from_csv_to_db(bpe_types)
+        load_bpe_types(None)
 
 

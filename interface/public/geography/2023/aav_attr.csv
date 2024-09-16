@@ -1,0 +1,701 @@
+aav,aav_name,aav_type
+000,Commune hors attraction des villes,0
+001,Paris,5
+002,Lyon,4
+003,Marseille - Aix-en-Provence,4
+004,Lille (partie française),4
+005,Toulouse,4
+006,Bordeaux,4
+008,Nantes,4
+010,Strasbourg (partie française),4
+012,Montpellier,4
+013,Rennes,4
+014,Grenoble,4
+015,Rouen,3
+017,Nice,3
+018,Toulon,3
+019,Tours,3
+020,Nancy,3
+022,Clermont-Ferrand,3
+023,Saint-Étienne,3
+024,Caen,3
+025,Orléans,3
+026,Angers,3
+028,Dijon,3
+029,Mulhouse,3
+030,Perpignan,3
+031,Cannes - Antibes,3
+032,Brest,3
+033,Metz,3
+034,Le Mans,3
+035,Amiens,3
+036,Reims,3
+037,Nîmes,3
+038,Valenciennes (partie française),3
+039,Le Havre,3
+040,Avignon,3
+041,Limoges,3
+042,Lens - Liévin,3
+043,Annecy,3
+044,Pau,3
+045,Besançon,3
+046,Poitiers,3
+047,Bayonne (partie française),3
+048,Dunkerque,3
+049,Valence,3
+050,Chambéry,3
+051,La Rochelle,3
+052,Quimper,3
+053,Lorient,3
+054,Troyes,3
+055,Saint-Nazaire,3
+056,Saint-Brieuc,3
+057,Vannes,2
+058,Colmar,2
+059,Douai,2
+060,Béziers,2
+061,Montbéliard,2
+062,Angoulême,2
+063,Niort,2
+064,Bourges,2
+065,Chartres,2
+066,La Roche-sur-Yon,2
+067,Cholet,2
+068,Boulogne-sur-Mer,2
+069,Arras,2
+070,Chalon-sur-Saône,2
+071,Cherbourg-en-Cotentin,2
+072,Narbonne,2
+073,Calais,2
+074,Blois,2
+075,Laval,2
+076,Beauvais,2
+077,Maubeuge (partie française),2
+078,Compiègne,2
+079,Roanne,2
+080,Bourg-en-Bresse,2
+081,Montauban,2
+082,Albi,2
+083,Évreux,2
+084,Mâcon,2
+085,Tarbes,2
+086,Belfort,2
+087,Brive-la-Gaillarde,2
+088,Saint-Malo,2
+089,Alès,2
+090,Charleville-Mézières,2
+091,Carcassonne,2
+092,Fréjus,2
+093,Agen,2
+094,Saint-Quentin,2
+095,Épinal,2
+096,Saint-Omer,2
+097,Nevers,2
+098,Ajaccio,2
+100,Châteauroux,2
+101,Périgueux,2
+102,Auxerre,2
+103,Rodez,2
+104,Bastia,2
+105,Castres,2
+106,Mont-de-Marsan,2
+107,Montélimar,2
+108,Cambrai,2
+109,Montluçon,2
+110,Vichy,2
+111,Dax,2
+112,Châlons-en-Champagne,2
+113,Lannion,2
+114,Dieppe,2
+115,Le Puy-en-Velay,2
+116,Alençon,2
+117,Châtellerault,2
+118,Sens,2
+119,Gap,2
+120,Saintes,2
+121,Sarreguemines (partie française),2
+122,Moulins,2
+123,Aurillac,2
+124,Saint-Lô,2
+125,Béthune,2
+126,Draguignan,2
+127,Haguenau,2
+128,Soissons,2
+129,Bergerac,2
+130,Montargis,2
+131,Royan,2
+132,Lons-le-Saunier,2
+133,Saumur,2
+134,Dole,2
+135,Salon-de-Provence,2
+136,Laon,2
+137,Manosque,2
+138,Vesoul,2
+139,Les Sables-d'Olonne,2
+140,Rochefort,2
+141,Romans-sur-Isère,2
+142,Saint-Dié-des-Vosges,2
+143,Aubenas,2
+144,Louviers,2
+145,Auch,2
+146,Saint-Dizier,2
+147,Roussillon,2
+148,Carpentras,2
+149,Morlaix,2
+150,Arles,2
+151,Thonon-les-Bains,2
+152,Cognac,2
+153,Cahors,2
+154,Villeneuve-sur-Lot,2
+155,Ancenis-Saint-Géréon,2
+156,Auchel - Lillers,2
+157,Épernay,2
+158,Sélestat,2
+159,Libourne,2
+160,Chaumont,2
+161,Annonay,2
+162,Lisieux,2
+163,Cluses,2
+164,Abbeville,2
+165,Orange,2
+166,Agde,2
+167,Albertville,2
+168,Oyonnax,2
+169,Vitré,2
+170,Sarrebourg,2
+171,Flers,2
+172,Fougères,2
+173,Les Herbiers,2
+174,Beaune,2
+175,Marmande,2
+176,Montceau-les-Mines,2
+177,Bar-le-Duc,2
+178,Saint-Avold (partie française),1
+179,Guéret,1
+180,Challans,1
+181,Pontarlier,1
+182,Vendôme,1
+183,Le Creusot,1
+184,Longwy,1
+185,Bagnols-sur-Cèze,1
+186,Granville,1
+187,Dinan,1
+188,Redon,1
+189,Bressuire,1
+190,Pierrelatte,1
+191,Sablé-sur-Sarthe,1
+192,Saint-Hilaire-de-Riez,1
+193,Verdun,1
+194,Issoire,1
+195,Saint-Gaudens,1
+196,Gien,1
+197,Forbach (partie française),1
+198,Vire Normandie,1
+199,Pamiers,1
+200,Sète,1
+201,Cavaillon,1
+202,Montaigu-Vendée,1
+203,Romorantin-Lanthenay,1
+204,Fontenay-le-Comte,1
+205,Coutances,1
+206,Tulle,1
+207,Pontivy,1
+208,Vierzon,1
+209,Château-Thierry,1
+210,Montbrison,1
+211,Arcachon - La Teste-de-Buch,1
+212,Chemillé-en-Anjou,1
+213,Brignoles,1
+214,Quimperlé,1
+215,Argentan,1
+216,Sedan,1
+217,Thouars,1
+218,Vitry-le-François,1
+219,Mayenne,1
+220,Fécamp,1
+221,Noeux-les-Mines,1
+222,Beaucaire,1
+223,Châteaudun,1
+224,Millau,1
+225,Thiers,1
+226,Figeac,1
+227,La Ferté-Bernard,1
+228,Châteaubriant,1
+229,Loudéac,1
+230,Bernay,1
+231,Pornic,1
+232,Caudry,1
+233,Sarlat-la-Canéda,1
+234,Avranches,1
+235,Berck,1
+236,Hazebrouck,1
+237,Pont-Audemer,1
+238,Trouville-sur-Mer,1
+239,Autun,1
+240,Remiremont,1
+241,Parthenay,1
+242,Noyon,1
+243,Ambérieu-en-Bugey,1
+244,Château-Gontier-sur-Mayenne,1
+245,Villefranche-de-Rouergue,1
+246,Friville-Escarbotin,1
+247,Étaples - Le Touquet-Paris-Plage,1
+248,Eu,1
+249,Sallanches,1
+250,Val de Briey,1
+251,Digne-les-Bains,1
+252,Nogent-le-Rotrou,1
+253,Oloron-Sainte-Marie,1
+254,Cosne-Cours-sur-Loire,1
+255,Ploërmel,1
+256,Bruay-la-Buissière,1
+257,Guingamp,1
+258,Segré-en-Anjou Bleu,1
+259,Luxeuil-les-Bains,1
+260,Langres,1
+261,Hendaye (partie française),1
+262,L'Aigle,1
+263,Aire-sur-la-Lys,1
+264,Romilly-sur-Seine,1
+265,Bayeux,1
+266,Biscarrosse,1
+267,Privas,1
+268,Castelnaudary,1
+269,Miramas,1
+270,Pithiviers,1
+271,Biars-sur-Cère - Saint-Céré,1
+272,Pleyben - Châteaulin,1
+273,Chauny,1
+274,Pont-à-Mousson,1
+275,Apt,1
+276,Gray,1
+277,Péronne,1
+278,Mende,1
+279,Avallon,1
+280,Creutzwald,1
+281,Foix,1
+282,Lourdes,1
+283,Tergnier,1
+284,Saint-Girons,1
+285,Saint-Jean-de-Maurienne,1
+286,Belley,1
+287,Fourmies,1
+288,La Flèche,1
+289,Landivisiau,1
+290,Briançon,1
+291,Lure,1
+292,Paimpol,1
+293,Saint-Pol-sur-Ternoise,1
+294,Chinon,1
+295,Saint-Marcellin,1
+296,Roscoff - Saint-Pol-de-Léon,1
+297,Vittel - Contrexéville,1
+298,Porto-Vecchio,1
+299,Yvetot,1
+300,Saint-Amand-Montrond,1
+301,Le Luc,1
+302,Capbreton,1
+303,Somain,1
+304,L'Isle-sur-la-Sorgue,1
+305,Carhaix-Plouguer,1
+306,Gaillac,1
+307,Neufchâteau,1
+308,Hirson,1
+309,Ussel,1
+310,Orthez,1
+311,Luçon,1
+312,Lannemezan,1
+313,Morteau,1
+314,Bédarieux,1
+315,Saint-Jean-d'Angély,1
+316,Le Grau-du-Roi,1
+317,Amnéville - Rombas,1
+318,Issoudun,1
+319,Saint-Claude,1
+320,Feurs,1
+321,Évron,1
+322,Freyming-Merlebach (partie française),1
+323,Saint-Flour,1
+324,Brioude,1
+325,Uzès,1
+326,Joigny,1
+327,Limoux,1
+328,Loches,1
+329,Moissac,1
+330,Decazeville,1
+331,Ambert,1
+332,Mauges-sur-Loire,1
+333,Louhans,1
+334,Valréas,1
+335,Tournon-sur-Rhône,1
+336,Paray-le-Monial,1
+337,Chantonnay,1
+338,Champagnole,1
+339,Revel,1
+340,Lavelanet,1
+341,Bollène,1
+342,Crest,1
+343,Sisteron,1
+344,Bourg-Saint-Maurice,1
+345,Pézenas,1
+346,Verneuil d'Avre et d'Iton,1
+347,Loudun,1
+348,Le Blanc,1
+349,Sainte-Maxime,1
+350,Gérardmer,1
+351,La Ferté Macé,1
+352,Honfleur,1
+353,Crozon,1
+354,Jonzac,1
+355,Lesparre-Médoc,1
+356,Castelsarrasin,1
+357,Belleville-en-Beaujolais,1
+358,Carentan-les-Marais,1
+359,Vaison-la-Romaine,1
+360,Pineuilh,1
+361,Nérac,1
+362,Doué-en-Anjou,1
+363,Prades,1
+364,La Tour-du-Pin,1
+365,Châtillon-sur-Seine,1
+366,Tonneins,1
+367,Graulhet,1
+368,Wissembourg (partie française),1
+369,Surgères,1
+370,Decize,1
+371,Bormes-les-Mimosas,1
+372,Commercy,1
+373,Barbezieux-Saint-Hilaire,1
+374,Tarare,1
+375,Saint-Vallier,1
+376,Pont-Saint-Esprit,1
+377,Montpon-Ménestérol,1
+378,Hesdin,1
+379,Maîche,1
+380,Avesnes-sur-Helpe,1
+381,Montval-sur-Loir,1
+382,Montmorillon,1
+383,Clamecy,1
+384,Saint-Gervais-les-Bains,1
+385,Fumel,1
+386,Ruffec,1
+387,Essarts en Bocage,1
+388,Saint-Yrieix-la-Perche,1
+389,Bar-sur-Aube,1
+390,Yssingeaux,1
+391,Blaye,1
+392,Semur-en-Auxois,1
+393,Saint-Chély-d'Apcher,1
+394,Auray,1
+395,Dives-sur-Mer,1
+396,Valence,1
+397,Sézanne,1
+398,Bagnères-de-Bigorre,1
+399,Saint-Martin-de-Crau,1
+400,Gournay-en-Bray,1
+401,Roye,1
+402,Le Cateau-Cambrésis,1
+403,Aubigny-sur-Nère,1
+404,Saint-Affrique,1
+405,Cogolin,1
+406,Condom,1
+407,Mazamet,1
+408,Chamonix-Mont-Blanc,1
+409,Lillebonne,1
+410,Gourdon,1
+411,Pouzauges,1
+412,Nyons,1
+413,Nogent-sur-Seine,1
+414,Corte,1
+415,Tonnerre,1
+416,Digoin,1
+417,Givet,1
+418,Mortagne-au-Perche,1
+419,Aubusson,1
+420,La Côte-Saint-André,1
+421,Aire-sur-l'Adour,1
+422,Hauts de Bienne,1
+423,Moûtiers,1
+424,Jarny,1
+425,Ribérac,1
+426,Delle (partie française),1
+427,Embrun,1
+428,Sully-sur-Loire,1
+429,Saint-Florentin,1
+430,Calvi,1
+431,Guer,1
+432,Vidauban,1
+433,Baugé-en-Anjou,1
+434,Nontron,1
+435,La Souterraine,1
+436,Gueugnon,1
+437,Beaurepaire,1
+438,Valdahon,1
+439,Marennes-Hiers-Brouage,1
+440,La Réole,1
+441,Saint-Hilaire-du-Harcouët,1
+442,Montbard,1
+443,Lodève,1
+444,Le Pouliguen,1
+445,Pauillac,1
+446,Tournus,1
+447,La Châtaigneraie,1
+448,Mirecourt,1
+449,Sainte-Menehould,1
+450,Ham,1
+451,Le Thillot,1
+452,La Châtre,1
+453,Saint-Jean-de-Monts,1
+454,Saint-Maixent-l'École,1
+455,Mimizan,1
+456,Bazas,1
+457,Montrichard Val de Cher,1
+458,Ciboure,1
+459,Saint-Rémy-de-Provence,1
+460,Saint-Pourçain-sur-Sioule,1
+461,Faulquemont,1
+462,Ernée,1
+463,La Londe-les-Maures,1
+464,La Tremblade,1
+465,Vouziers,1
+466,Guise,1
+467,Le Vigan,1
+468,Die,1
+469,Rostrenen,1
+470,Mamers,1
+471,Bort-les-Orgues,1
+472,Montdidier,1
+473,Migennes,1
+474,La Guerche-de-Bretagne,1
+475,Rambervillers,1
+476,Merville,1
+477,Le Mené,1
+478,Saint-Éloy-les-Mines,1
+479,Joinville,1
+480,Les Andelys,1
+481,Sainte-Marie-aux-Mines,1
+482,Saint-Valery-en-Caux,1
+483,Hagetmau,1
+484,Neufchâtel-en-Bray,1
+485,Mauléon-Licharre,1
+486,Marvejols,1
+487,Melle,1
+488,Confolens,1
+489,Le Neubourg,1
+490,Céret,1
+491,Bapaume,1
+492,Saint-Tropez,1
+493,Villedieu-les-Poêles-Rouffigny,1
+494,Le Nouvion-en-Thiérache,1
+495,L'Île-Rousse,1
+496,Mourenx,1
+497,Soustons,1
+498,Craon,1
+499,Égletons,1
+500,Poligny,1
+501,Bouzonville,1
+502,Saint-Palais,1
+503,Le Cheylard,1
+504,Saint-Chamas,1
+505,Lagnieu,1
+506,Gramat,1
+507,Condé-en-Normandie,1
+508,Farébersviller,1
+509,Baccarat,1
+510,Valgelon-La Rochette,1
+511,Bellac,1
+512,Port-Saint-Louis-du-Rhône,1
+513,La Flotte,1
+514,Bourbon-Lancy,1
+515,Mauriac,1
+516,Château-Arnoux-Saint-Auban,1
+517,Bitche,1
+518,Argelès-Gazost,1
+519,Casteljaloux,1
+520,Le Pont-de-Beauvoisin,1
+521,Souillac,1
+522,Forcalquier,1
+523,Saint-Jean-Pied-de-Port,1
+524,Châtillon-sur-Chalaronne,1
+525,Saint-Méen-le-Grand,1
+526,Baud,1
+527,Dieuze,1
+528,Espalion,1
+529,Bagnères-de-Luchon,1
+530,Gannat,1
+531,Châteauneuf-du-Faou,1
+532,Chauffailles,1
+533,Pontorson,1
+534,Brienne-le-Château,1
+535,Brou,1
+536,Saint-Vincent-de-Tyrosse,1
+537,Sarre-Union,1
+538,Pluvigner,1
+539,Argenton-sur-Creuse,1
+540,Propriano,1
+541,Morhange,1
+542,Thiviers,1
+543,Eauze,1
+544,Machecoul-Saint-Même,1
+545,Montmirail,1
+546,Langeac,1
+547,Fruges,1
+548,Saint-Mihiel,1
+549,Cavalaire-sur-Mer,1
+550,Morzine,1
+551,Josselin,1
+552,Charmes,1
+553,Thizy-les-Bourgs,1
+554,La Loupe,1
+555,Saint-Satur - Sancerre,1
+556,Pleslin-Trigavou,1
+557,Locminé,1
+558,Uzerche,1
+559,Rouffach,1
+560,Gaillon,1
+561,Longué-Jumelles,1
+562,Vervins,1
+563,La Charité-sur-Loire,1
+564,Barcelonnette,1
+565,Amplepuis,1
+566,Amélie-les-Bains-Palalda,1
+567,Quiberon,1
+568,Blancs-Coteaux,1
+569,Montoire-sur-le-Loir,1
+570,Marckolsheim,1
+571,Bohain-en-Vermandois,1
+572,Plateau d'Hauteville,1
+573,Carignan,1
+574,Saint-Calais,1
+575,Pons,1
+576,Blangy-sur-Bresle,1
+577,Beuzeville,1
+578,Carnac,1
+579,Arbois,1
+580,Les Abrets en Dauphiné,1
+581,Nonancourt - Saint-Lubin-des-Joncherets,1
+582,Charolles,1
+583,Lectoure,1
+584,Revin,1
+585,Morestel,1
+586,Breteuil,1
+587,Banyuls-sur-Mer,1
+588,Saint-Aignan,1
+589,Sarrians,1
+590,Domfront en Poiraie,1
+591,Cours,1
+592,Mallemort,1
+593,Sainte-Sigolène,1
+594,Salies-de-Béarn,1
+595,Sées,1
+596,Chazelles-sur-Lyon,1
+597,Phalsbourg,1
+598,Fayence,1
+599,Argentat-sur-Dordogne,1
+600,Lapalisse,1
+601,Nogaro,1
+602,Villaines-la-Juhel,1
+603,Fumay,1
+604,Forges-les-Eaux,1
+605,Belz,1
+606,Beaumont-de-Lomagne,1
+607,Saint-Fulgent,1
+608,Port-la-Nouvelle,1
+609,Miramont-de-Guyenne,1
+610,Bruyères,1
+611,Reichshoffen,1
+612,Laragne-Montéglin,1
+613,Morcenx-la-Nouvelle,1
+614,Solesmes,1
+615,Cugand,1
+616,Vic-Fezensac,1
+617,Modane,1
+618,Lacaune,1
+619,Venarey-les-Laumes,1
+620,Salbris,1
+621,Gourin,1
+622,Mourmelon-le-Grand,1
+623,Bonneval,1
+624,Le Lude,1
+625,La Voulte-sur-Rhône,1
+626,Saint-Loup-sur-Semouse,1
+627,Dompierre-sur-Besbre,1
+628,Sommières,1
+629,Étain,1
+630,Cany-Barville,1
+631,Sillé-le-Guillaume,1
+632,L'Île-d'Yeu,1
+633,Salins-les-Bains,1
+634,Cerizay,1
+635,Varennes-sur-Allier,1
+636,Gorron,1
+637,Peyrehorade,1
+638,Saint-Didier-sur-Chalaronne,1
+639,Maubourguet,1
+640,Saint-Jean-de-Bournay,1
+641,Saint-Amour,1
+642,Saint-Père-en-Retz,1
+643,Isigny-sur-Mer,1
+644,Bar-sur-Seine,1
+645,Aime-la-Plagne,1
+646,Niederbronn-les-Bains,1
+647,Durtal,1
+648,Luneray,1
+649,Saint-Georges-de-Reneins,1
+650,Steenvoorde,1
+651,Saint-Laurent-Nouan,1
+652,Culoz-Béon,1
+653,Brionne,1
+654,Mirande,1
+655,Mazères,1
+656,Malestroit,1
+657,Bouxwiller,1
+658,Lessay,1
+659,Bouchain,1
+660,Suippes,1
+661,Tartas,1
+662,Fessenheim,1
+663,Plancoët,1
+664,Castets,1
+665,Tarascon-sur-Ariège,1
+666,Moréac,1
+667,Broons,1
+668,Tréguier,1
+669,Méaulte,1
+670,Chablis,1
+671,Saint-Étienne-de-Saint-Geoirs,1
+672,Saint-Julien-du-Sault,1
+673,Soultz-sous-Forêts,1
+674,Saint-Venant,1
+675,Le Bar-sur-Loup,1
+676,Le Pouzin,1
+677,Saint-Geours-de-Maremne,1
+678,Chaulnes,1
+679,Montreuil-sur-Mer,1
+680,Flamanville,1
+681,Val-d'Isère,1
+682,Villers-la-Montagne,1
+9A1,Les Abymes,3
+9A2,Basse-Terre,2
+9A3,Bouillante,1
+9B1,Fort-de-France,3
+9B2,Le Lorrain,1
+9B3,Basse-Pointe,1
+9C1,Cayenne,2
+9C2,Saint-Laurent-du-Maroni,1
+9C3,Kourou,1
+9D1,Saint-Denis,3
+9D2,Saint-Pierre - Le Tampon,3
+9D3,Le Port,1
+9D4,Saint-Paul,2
+9D5,Saint-Louis,2
+9D6,Saint-Benoît,2
+9D7,Salazie,1
+9F1,Mamoudzou,3
+BAL,Bâle - Saint-Louis (partie française),3
+CHA,Charleroi (partie française),3
+GEN,Genève - Annemasse (partie française),4
+LAU,Lausanne (partie française),3
+LUX,Luxembourg (partie française),4
+MON,Monaco - Menton (partie française),2
+SAR,Sarrebruck (partie française),4

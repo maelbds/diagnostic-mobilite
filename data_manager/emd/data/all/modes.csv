@@ -1,0 +1,10 @@
+id;name_fr;id_main_mode
+1;marche;1
+2;vélo;2
+3;deux-roues (-50cm3);3
+4;deux-roues (+50cm3);3
+5;voiture conducteur;4
+6;voiture passager;5
+7;transport en commun urbain;6
+8;transport en commun autre;6
+9;autre;7
