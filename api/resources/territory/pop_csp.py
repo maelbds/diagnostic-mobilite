@@ -17,13 +17,16 @@ from api.resources.common.schema_request import context_get_request
 
 source_label = "insee_dossier_complet"
 
-dataset_pop_csp = {
-    "endpoint": "territory/pop_csp",
-    "is_mesh_element": True,
-    "meshes": ["com", "epci"],
-    "name_year": "Insee Dossier Complet",
-    "years": get_years_for_source(source_label),
-}
+
+def get_dataset_pop_csp():
+    return {
+        "endpoint": "territory/pop_csp",
+        "is_mesh_element": True,
+        "meshes": ["com", "epci"],
+        "name_year": "Insee Dossier Complet",
+        "years": get_years_for_source(source_label),
+    }
+
 
 csp_codes = range(1, 9)
 variables_all = ["POP15P_CS" + str(i) for i in csp_codes]

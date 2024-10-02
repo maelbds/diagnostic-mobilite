@@ -16,13 +16,16 @@ from api.resources.common.schema_request import context_get_request
 
 source_label = "insee_dossier_complet_status"
 
-dataset_pop_status = {
-    "endpoint": "territory/pop_status",
-    "is_mesh_element": True,
-    "meshes": ["com", "epci"],
-    "name_year": "Insee Dossier Complet",
-    "years": get_years_for_source(source_label),
-}
+
+def get_dataset_pop_status():
+    return {
+        "endpoint": "territory/pop_status",
+        "is_mesh_element": True,
+        "meshes": ["com", "epci"],
+        "name_year": "Insee Dossier Complet",
+        "years": get_years_for_source(source_label),
+    }
+
 
 variables = ["employed", "unemployed", "retired",
              "scholars_2_5", "scholars_6_10", "scholars_11_14",

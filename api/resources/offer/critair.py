@@ -17,13 +17,16 @@ from api.resources.common.schema_request import context_get_request
 
 source_label = "rsvero_critair"
 
-dataset_critair = {
-    "endpoint": "offer/critair",
-    "is_mesh_element": True,
-    "meshes": ["com", "epci"],
-    "name_year": "Crit'Air",
-    "years": get_years_for_source(source_label),
-}
+
+def get_dataset_critair():
+    return {
+        "endpoint": "offer/critair",
+        "is_mesh_element": True,
+        "meshes": ["com", "epci"],
+        "name_year": "Crit'Air",
+        "years": get_years_for_source(source_label),
+    }
+
 
 variables = ["elec", "critair1", "critair2", "critair3", "critair4", "critair5", "nc"]
 

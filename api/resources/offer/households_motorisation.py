@@ -16,13 +16,15 @@ from api.resources.common.schema_request import context_get_request
 
 source_label = "insee_dossier_complet"
 
-dataset_households_motorisation = {
-    "endpoint": "offer/households_motorisation",
-    "is_mesh_element": True,
-    "meshes": ["com", "epci"],
-    "name_year": "Insee Dossier Complet",
-    "years": get_years_for_source(source_label),
-}
+
+def get_dataset_households_motorisation():
+    return {
+        "endpoint": "offer/households_motorisation",
+        "is_mesh_element": True,
+        "meshes": ["com", "epci"],
+        "name_year": "Insee Dossier Complet",
+        "years": get_years_for_source(source_label),
+    }
 
 
 variables = ["MEN", "RP_VOIT1P"]
